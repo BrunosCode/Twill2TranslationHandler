@@ -29,11 +29,9 @@ composer build
 php vendor/bin/testbench serve
 ```
 
-The admin panel is available at `http://admin.localhost:8000`.
+The admin panel is available at `http://localhost:8000/admin`.
 
 Default credentials: `test@test.test` / `test@test.test`
-
-> **Note:** The Twill admin uses a subdomain (`admin.localhost`). Make sure your `/etc/hosts` has `127.0.0.1 admin.localhost` or access it via `curl -H "Host: admin.localhost" http://127.0.0.1:8000`.
 
 ## Resetting the database
 

@@ -5,8 +5,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 it('registers translations route', function () {
-    expect(route('admin.translations.index'))
-        ->toContain('/translations');
+    expect(route('admin.translations.translations.index'))
+        ->toContain('/translations/translations');
 });
 
 it('registers translationGroups route under translations prefix', function () {
@@ -50,14 +50,14 @@ it('configures navigation with correct structure', function () {
 it('navigation points to correct routes', function () {
     $nav = config('twill-navigation.translations.primary_navigation');
 
-    expect($nav['translations']['route'])->toBe('admin.translations.index')
+    expect($nav['translations']['route'])->toBe('admin.translations.translations.index')
         ->and($nav['translationGroups']['route'])->toBe('admin.translations.translationGroups.index')
         ->and($nav['translationTools']['route'])->toBe('admin.translations.translationTools.index');
 });
 
 it('all navigation routes share the translations prefix for active highlighting', function () {
     $routes = [
-        'admin.translations.index',
+        'admin.translations.translations.index',
         'admin.translations.translationGroups.index',
         'admin.translations.translationTools.index',
     ];

@@ -97,7 +97,7 @@ it('handles empty repeater gracefully', function () {
         ->and($fields['repeaterFields']['translation_item'])->toBeEmpty();
 });
 
-it('returns empty value for missing locale translations', function () {
+it('returns only existing locale values for partial translations', function () {
     $group = TranslationGroup::create(['prefix' => 'partial']);
 
     $t = Translation::create(['key' => 'partial.key']);
@@ -109,5 +109,5 @@ it('returns empty value for missing locale translations', function () {
     $valueField = collect($repeaterFields)->first(fn ($f) => str_contains($f['name'], '[value]'));
 
     expect($valueField['value']['en'])->toBe('English only')
-        ->and($valueField['value']['it'])->toBe('');
+        ->and($valueField['value'])->not->toHaveKey('it');
 });

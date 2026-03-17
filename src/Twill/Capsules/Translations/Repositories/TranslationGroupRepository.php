@@ -2,12 +2,15 @@
 
 namespace BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Repositories;
 
+use A17\Twill\Repositories\Behaviors\HandleRepeaters;
 use A17\Twill\Repositories\ModuleRepository;
 use BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Models\Translation;
 use BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
 
 class TranslationGroupRepository extends ModuleRepository
 {
+    use HandleRepeaters;
+
     public function __construct(TranslationGroup $model)
     {
         $this->model = $model;
@@ -17,44 +20,14 @@ class TranslationGroupRepository extends ModuleRepository
     {
         $fields = parent::getFormFields($object);
 
-        /** @var TranslationGroup $object */
-        $translations = $object->getTranslationsQuery()
-            ->with('translations')
-            ->get();
-
-        $locales = config('translation-handler.locales', ['en']);
-
-        $repeaterItems = [];
-        $repeaterFields = [];
-
-        foreach ($translations as $translation) {
-            $itemId = 'translation_item-'.$translation->id;
-
-            $repeaterItems[] = [
-                'id' => $itemId,
-                'type' => 'translation_item',
-                'title' => $translation->key,
-            ];
-
-            $repeaterFields[] = [
-                'name' => "blocks[{$itemId}][key]",
-                'value' => $translation->key,
-            ];
-
-            $valueByLocale = [];
-            foreach ($locales as $locale) {
-                $tv = $translation->translations->firstWhere('locale', $locale);
-                $valueByLocale[$locale] = $tv->value ?? '';
-            }
-
-            $repeaterFields[] = [
-                'name' => "blocks[{$itemId}][value]",
-                'value' => $valueByLocale,
-            ];
-        }
-
-        $fields['repeaters']['translation_item'] = $repeaterItems;
-        $fields['repeaterFields']['translation_item'] = $repeaterFields;
+        $fields = $this->getFormFieldsForRepeater(
+            $object,
+            $fields,
+            'translation_items',
+            /** @phpstan-ignore argument.type */
+            TranslationRepository::class,
+            'translation_item'
+        );
 
         return $fields;
     }

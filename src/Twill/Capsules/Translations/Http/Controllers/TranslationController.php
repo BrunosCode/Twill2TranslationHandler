@@ -25,8 +25,11 @@ class TranslationController extends ModuleController
     protected $disableEditor = true;
 
     protected $indexOptions = [
+        'create' => false,
+        'delete' => false,
         'publish' => false,
         'bulkPublish' => false,
+        'bulkDelete' => false,
         'feature' => false,
         'bulkFeature' => false,
     ];

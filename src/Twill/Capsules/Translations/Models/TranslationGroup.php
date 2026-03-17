@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
  * @property string $prefix
  * @property bool $published
  * @property-read int $translations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, Translation> $translation_items
  */
 class TranslationGroup extends Model
 {
@@ -28,6 +29,16 @@ class TranslationGroup extends Model
 
         return Translation::where('key', 'like', $this->prefix.$delimiter.'%')
             ->orderBy('key');
+    }
+
+    /**
+     * Accessor used by HandleRepeaters to iterate translation items.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection<int, Translation>
+     */
+    public function getTranslationItemsAttribute(): \Illuminate\Database\Eloquent\Collection
+    {
+        return $this->getTranslationsQuery()->with('translations')->get();
     }
 
     public function getTranslationsCountAttribute(): int

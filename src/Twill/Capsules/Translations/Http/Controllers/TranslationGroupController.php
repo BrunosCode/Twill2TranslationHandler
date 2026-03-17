@@ -4,6 +4,7 @@ namespace BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Http\C
 
 use A17\Twill\Http\Controllers\Admin\ModuleController;
 use BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
+use Illuminate\Support\Collection;
 
 class TranslationGroupController extends ModuleController
 {
@@ -15,6 +16,29 @@ class TranslationGroupController extends ModuleController
 
     protected $disableEditor = true;
 
+    protected function getViewPrefix(): ?string
+    {
+        return 'Translations.resources.views.admin.translationGroups';
+    }
+
+    protected function formData($request)
+    {
+        $locales = config('translatable.locales', config('translation-handler.locales', ['en']));
+
+        return [
+            'translate' => true,
+            'controlLanguagesPublication' => false,
+            'languages' => Collection::make($locales)->map(function ($locale) {
+                return [
+                    'shortlabel' => strtoupper($locale),
+                    'label' => $locale,
+                    'value' => $locale,
+                    'published' => true,
+                ];
+            })->values()->toArray(),
+        ];
+    }
+
     protected $indexColumns = [
         'prefix' => [
             'title' => 'Prefix',
@@ -24,7 +48,6 @@ class TranslationGroupController extends ModuleController
         'translations_count' => [
             'title' => 'Translations',
             'field' => 'translations_count',
-            'present' => true,
         ],
     ];
 
