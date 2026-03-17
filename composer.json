@@ -1,24 +1,25 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "brunoscode/twill-2-translation-handler",
+    "description": "This is my package twill-2-translation-handler",
     "keywords": [
-        ":vendor_name",
+        "Twill2TranslationHandler",
         "laravel",
-        ":package_slug"
+        "twill-2-translation-handler"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/brunoscode/twill-2-translation-handler",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Bruno Magnani",
+            "email": "edobruno.m@gmail.com",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^8.2",
-        "spatie/laravel-package-tools": "^1.16",
-        "illuminate/contracts": "^10.0||^11.0"
+        "php": "^8.1",
+        "area17/twill": "^2.0",
+        "brunoscode/laravel-translation-handler": "dev-main",
+        "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
         "laravel/pint": "^1.14",
@@ -30,38 +31,53 @@
         "pestphp/pest-plugin-laravel": "^2.3",
         "phpstan/extension-installer": "^1.3",
         "phpstan/phpstan-deprecation-rules": "^1.1",
-        "phpstan/phpstan-phpunit": "^1.3",
-        "spatie/laravel-ray": "^1.35"
+        "phpstan/phpstan-phpunit": "^1.3"
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "BrunosCode\\Twill2TranslationHandler\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/",
-            "Workbench\\App\\": "workbench/app/"
+            "BrunosCode\\Twill2TranslationHandler\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/",
+            "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
         }
     },
     "scripts": {
-        "post-autoload-dump": "@composer run prepare",
+        "post-autoload-dump": [
+            "@clear",
+            "@prepare",
+            "@composer run prepare"
+        ],
         "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
         "prepare": "@php vendor/bin/testbench package:discover --ansi",
         "build": [
-            "@composer run prepare",
-            "@php vendor/bin/testbench workbench:build --ansi"
+            "[ ! -L ./testbench-core ] || rm ./testbench-core",
+            "@php vendor/bin/testbench workbench:build --ansi",
+            "@php vendor/bin/testbench twill:build",
+            "ln -s ./vendor/orchestra/testbench-core/laravel ./testbench-core"
         ],
         "start": [
             "Composer\\Config::disableProcessTimeout",
             "@composer run build",
             "@php vendor/bin/testbench serve"
         ],
-        "analyse": "vendor/bin/phpstan analyse",
+        "analyse": "vendor/bin/phpstan analyse --memory-limit 300M",
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage",
-        "format": "vendor/bin/pint"
+        "format": "vendor/bin/pint",
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "@build",
+            "@php vendor/bin/testbench serve --ansi"
+        ],
+        "lint": [
+            "@php vendor/bin/pint --ansi",
+            "@php vendor/bin/phpstan analyse --verbose --ansi"
+        ]
     },
     "config": {
         "sort-packages": true,
@@ -73,11 +89,9 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
-            ],
-            "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
-            }
+                "BrunosCode\\Twill2TranslationHandler\\Twill2TranslationHandlerServiceProvider",
+                "BrunosCode\\Twill2TranslationHandler\\TranslationsCapsuleServiceProvider"
+            ]
         }
     },
     "minimum-stability": "dev",
