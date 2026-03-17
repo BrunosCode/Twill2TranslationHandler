@@ -1,6 +1,6 @@
 <?php
 
-namespace BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Http\Controllers;
+namespace BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Http\Controllers;
 
 use A17\Twill\Http\Controllers\Admin\ModuleController;
 

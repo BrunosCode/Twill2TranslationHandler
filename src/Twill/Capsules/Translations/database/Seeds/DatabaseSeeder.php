@@ -1,6 +1,6 @@
 <?php
 
-namespace BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Database\Seeds;
+namespace BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Database\Seeds;
 
 use Illuminate\Database\Seeder;
 

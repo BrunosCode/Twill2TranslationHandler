@@ -1,8 +1,8 @@
 <?php
 
-use BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Models\Translation;
-use BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
-use BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Repositories\TranslationGroupRepository;
+use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\Translation;
+use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
+use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Repositories\TranslationGroupRepository;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);

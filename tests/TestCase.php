@@ -1,11 +1,11 @@
 <?php
 
-namespace BrunosCode\Twill2TranslationHandler\Tests;
+namespace BrunosCode\TwillTranslationHandler\Tests;
 
 use A17\Twill\TwillServiceProvider;
 use BrunosCode\TranslationHandler\TranslationHandlerServiceProvider;
-use BrunosCode\Twill2TranslationHandler\TranslationsCapsuleServiceProvider;
-use BrunosCode\Twill2TranslationHandler\Twill2TranslationHandlerServiceProvider;
+use BrunosCode\TwillTranslationHandler\TranslationsCapsuleServiceProvider;
+use BrunosCode\TwillTranslationHandler\TwillTranslationHandlerServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -40,7 +40,7 @@ class TestCase extends Orchestra
         return [
             TwillServiceProvider::class,
             TranslationHandlerServiceProvider::class,
-            Twill2TranslationHandlerServiceProvider::class,
+            TwillTranslationHandlerServiceProvider::class,
             TranslationsCapsuleServiceProvider::class,
         ];
     }

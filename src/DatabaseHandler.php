@@ -1,11 +1,11 @@
 <?php
 
-namespace BrunosCode\Twill2TranslationHandler;
+namespace BrunosCode\TwillTranslationHandler;
 
 use BrunosCode\TranslationHandler\Collections\TranslationCollection;
 use BrunosCode\TranslationHandler\DatabaseHandler as BaseDatabaseHandler;
 use BrunosCode\TranslationHandler\Interfaces\DatabaseHandlerInterface;
-use BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
+use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Collection;
 

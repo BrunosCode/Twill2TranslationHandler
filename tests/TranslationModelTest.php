@@ -1,7 +1,7 @@
 <?php
 
-use BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Models\Translation;
-use BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Models\TranslationTranslation;
+use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\Translation;
+use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\TranslationTranslation;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

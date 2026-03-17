@@ -1,10 +1,10 @@
 <?php
 
-namespace BrunosCode\Twill2TranslationHandler\Http\Controllers;
+namespace BrunosCode\TwillTranslationHandler\Http\Controllers;
 
 use BrunosCode\TranslationHandler\Data\TranslationOptions;
 use BrunosCode\TranslationHandler\Facades\TranslationHandler;
-use BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
+use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\File;
@@ -13,7 +13,7 @@ class TranslationToolsController extends Controller
 {
     public function index()
     {
-        return view('twill-2-translation-handler::tools.index');
+        return view('twill-translation-handler::tools.index');
     }
 
     public function exportToPhp(Request $request)

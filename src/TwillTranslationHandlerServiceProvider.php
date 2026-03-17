@@ -1,17 +1,17 @@
 <?php
 
-namespace BrunosCode\Twill2TranslationHandler;
+namespace BrunosCode\TwillTranslationHandler;
 
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class Twill2TranslationHandlerServiceProvider extends PackageServiceProvider
+class TwillTranslationHandlerServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
         $package
-            ->name('twill-2-translation-handler')
+            ->name('twill-translation-handler')
             ->hasConfigFile('translation-handler')
             ->hasViews()
             ->hasInstallCommand(function (InstallCommand $command) {
@@ -29,7 +29,7 @@ class Twill2TranslationHandlerServiceProvider extends PackageServiceProvider
         $router = app('router');
 
         $groupConfig = [
-            'namespace' => 'BrunosCode\Twill2TranslationHandler\Http\Controllers',
+            'namespace' => 'BrunosCode\TwillTranslationHandler\Http\Controllers',
             'middleware' => [
                 config('twill.admin_middleware_group', 'web'),
                 'twill_auth:twill_users',

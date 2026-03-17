@@ -1,6 +1,6 @@
 <?php
 
-namespace BrunosCode\Twill2TranslationHandler;
+namespace BrunosCode\TwillTranslationHandler;
 
 use A17\Twill\Facades\TwillCapsules;
 use A17\Twill\TwillPackageServiceProvider;

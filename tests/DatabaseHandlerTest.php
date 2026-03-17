@@ -3,8 +3,8 @@
 use BrunosCode\TranslationHandler\Collections\TranslationCollection;
 use BrunosCode\TranslationHandler\Data\Translation as TranslationData;
 use BrunosCode\TranslationHandler\Data\TranslationOptions;
-use BrunosCode\Twill2TranslationHandler\DatabaseHandler;
-use BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
+use BrunosCode\TwillTranslationHandler\DatabaseHandler;
+use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);

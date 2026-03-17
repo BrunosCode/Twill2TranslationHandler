@@ -129,7 +129,7 @@ php vendor/bin/testbench translation-handler:set db test.key en "value"
 src/
 ├── DatabaseHandler.php                     # Custom DB handler (creates groups on import)
 ├── TranslationsCapsuleServiceProvider.php  # Registers Twill capsule + navigation
-├── Twill2TranslationHandlerServiceProvider.php  # Package config, views, admin routes
+├── TwillTranslationHandlerServiceProvider.php  # Package config, views, admin routes
 ├── Http/Controllers/
 │   └── TranslationToolsController.php      # Import/Export page controller
 └── Twill/Capsules/Translations/            # Twill capsule (all modules)

@@ -4,7 +4,7 @@ use BrunosCode\TranslationHandler\CsvFileHandler;
 use BrunosCode\TranslationHandler\Data\TranslationOptions;
 use BrunosCode\TranslationHandler\JsonFileHandler;
 use BrunosCode\TranslationHandler\PhpFileHandler;
-use BrunosCode\Twill2TranslationHandler\DatabaseHandler;
+use BrunosCode\TwillTranslationHandler\DatabaseHandler;
 
 // config for BrunosCode/TranslationHandler
 

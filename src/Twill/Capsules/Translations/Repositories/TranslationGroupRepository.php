@@ -1,11 +1,11 @@
 <?php
 
-namespace BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Repositories;
+namespace BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Repositories;
 
 use A17\Twill\Repositories\Behaviors\HandleRepeaters;
 use A17\Twill\Repositories\ModuleRepository;
-use BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Models\Translation;
-use BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
+use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\Translation;
+use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
 
 class TranslationGroupRepository extends ModuleRepository
 {

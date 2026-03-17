@@ -16,7 +16,7 @@
     backupStaticProperties="false"
 >
     <testsuites>
-        <testsuite name="Twill2TranslationHandler Test Suite">
+        <testsuite name="TwillTranslationHandler Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

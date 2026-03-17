@@ -1,12 +1,12 @@
 {
-    "name": "brunoscode/twill-2-translation-handler",
-    "description": "This is my package twill-2-translation-handler",
+    "name": "brunoscode/twill-translation-handler",
+    "description": "This is my package twill-translation-handler",
     "keywords": [
-        "Twill2TranslationHandler",
+        "TwillTranslationHandler",
         "laravel",
-        "twill-2-translation-handler"
+        "twill-translation-handler"
     ],
-    "homepage": "https://github.com/brunoscode/twill-2-translation-handler",
+    "homepage": "https://github.com/brunoscode/twill-translation-handler",
     "license": "MIT",
     "authors": [
         {
@@ -35,12 +35,12 @@
     },
     "autoload": {
         "psr-4": {
-            "BrunosCode\\Twill2TranslationHandler\\": "src/"
+            "BrunosCode\\TwillTranslationHandler\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "BrunosCode\\Twill2TranslationHandler\\Tests\\": "tests/",
+            "BrunosCode\\TwillTranslationHandler\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/",
             "Workbench\\Database\\Factories\\": "workbench/database/factories/",
             "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
@@ -88,8 +88,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "BrunosCode\\Twill2TranslationHandler\\Twill2TranslationHandlerServiceProvider",
-                "BrunosCode\\Twill2TranslationHandler\\TranslationsCapsuleServiceProvider"
+                "BrunosCode\\TwillTranslationHandler\\TwillTranslationHandlerServiceProvider",
+                "BrunosCode\\TwillTranslationHandler\\TranslationsCapsuleServiceProvider"
             ]
         }
     },

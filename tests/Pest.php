@@ -1,5 +1,5 @@
 <?php
 
-use BrunosCode\Twill2TranslationHandler\Tests\TestCase;
+use BrunosCode\TwillTranslationHandler\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);

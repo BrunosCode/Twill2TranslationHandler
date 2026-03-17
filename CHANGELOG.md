@@ -1,3 +1,3 @@
 # Changelog
 
-All notable changes to `Twill2TranslationHandler` will be documented in this file.
+All notable changes to `TwillTranslationHandler` will be documented in this file.

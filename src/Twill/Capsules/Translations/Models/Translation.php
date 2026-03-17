@@ -1,6 +1,6 @@
 <?php
 
-namespace BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Models;
+namespace BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models;
 
 use A17\Twill\Models\Behaviors\HasTranslation;
 use A17\Twill\Models\Model;

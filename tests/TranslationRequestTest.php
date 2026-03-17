@@ -1,6 +1,6 @@
 <?php
 
-use BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Http\Requests\TranslationRequest;
+use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Http\Requests\TranslationRequest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
