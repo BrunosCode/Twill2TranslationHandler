@@ -1,6 +1,6 @@
 @twillRepeaterTitle('Translation')
 @twillRepeaterTitleField('key', false)
-@twillRepeaterTrigger('Add translation')
+@twillRepeaterTrigger('')
 
 @formField('input', [
     'name' => 'key',

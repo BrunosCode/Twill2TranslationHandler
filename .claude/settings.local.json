@@ -9,7 +9,8 @@
       "Bash(composer show:*)",
       "Bash(php vendor/bin/testbench laravel-translation-handler:install)",
       "Bash(php vendor/bin/testbench translation-handler:install)",
-      "Bash(php vendor/bin/testbench route:list --path=translations)"
+      "Bash(php vendor/bin/testbench route:list --path=translations)",
+      "Bash(grep -r \"allowCreate\\\\|allow_create\\\\|max\\\\|''''max''''\" /Users/edoardomagnani/Code/mine/Twill2TranslationHandler/vendor/area17/twill/frontend/js --include=*.js --include=*.vue -l)"
     ]
   }
 }

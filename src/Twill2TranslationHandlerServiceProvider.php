@@ -53,6 +53,10 @@ class Twill2TranslationHandlerServiceProvider extends PackageServiceProvider
                 ->name('translations.translationTools.exportToCsv');
             $router->post('translations/tools/import-csv', 'TranslationToolsController@importFromCsv')
                 ->name('translations.translationTools.importFromCsv');
+            $router->post('translations/translationGroups/{id}/export-csv', 'TranslationToolsController@exportGroupCsv')
+                ->name('translations.translationGroups.exportCsv');
+            $router->post('translations/translationGroups/{id}/import-csv', 'TranslationToolsController@importGroupCsv')
+                ->name('translations.translationGroups.importCsv');
         });
     }
 }
