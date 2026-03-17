@@ -18,11 +18,11 @@ class TranslationsCapsuleServiceProvider extends TwillPackageServiceProvider
 
     protected function registerCapsuleWithoutNavigation(string $name): void
     {
-        $namespace = $this->getCapsuleNamespace() . '\\Twill\\Capsules\\' . $name;
-        $dir = $this->getPackageDirectory() . DIRECTORY_SEPARATOR
-            . 'src' . DIRECTORY_SEPARATOR
-            . 'Twill' . DIRECTORY_SEPARATOR
-            . 'Capsules' . DIRECTORY_SEPARATOR . $name;
+        $namespace = $this->getCapsuleNamespace().'\\Twill\\Capsules\\'.$name;
+        $dir = $this->getPackageDirectory().DIRECTORY_SEPARATOR
+            .'src'.DIRECTORY_SEPARATOR
+            .'Twill'.DIRECTORY_SEPARATOR
+            .'Capsules'.DIRECTORY_SEPARATOR.$name;
 
         TwillCapsules::registerPackageCapsule(
             $name,

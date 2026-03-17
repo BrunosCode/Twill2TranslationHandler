@@ -22,7 +22,7 @@ class TranslationToolsController extends Controller
 
             return redirect()->back()->with('status', 'Translations exported to PHP files successfully.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Export failed: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Export failed: '.$e->getMessage());
         }
     }
 
@@ -33,7 +33,7 @@ class TranslationToolsController extends Controller
 
             return redirect()->back()->with('status', 'Translations imported from PHP files successfully.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Import failed: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Import failed: '.$e->getMessage());
         }
     }
 
@@ -43,8 +43,8 @@ class TranslationToolsController extends Controller
             TranslationHandler::export(TranslationOptions::DB, TranslationOptions::CSV, true);
 
             $csvPath = config('translation-handler.csvPath', storage_path('lang'));
-            $csvFileName = config('translation-handler.csvFileName', 'translations') . '.csv';
-            $filePath = $csvPath . DIRECTORY_SEPARATOR . $csvFileName;
+            $csvFileName = config('translation-handler.csvFileName', 'translations').'.csv';
+            $filePath = $csvPath.DIRECTORY_SEPARATOR.$csvFileName;
 
             if (! File::exists($filePath)) {
                 return redirect()->back()->with('error', 'CSV file was not generated.');
@@ -52,7 +52,7 @@ class TranslationToolsController extends Controller
 
             return response()->download($filePath, $csvFileName)->deleteFileAfterSend(true);
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Export failed: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Export failed: '.$e->getMessage());
         }
     }
 
@@ -64,7 +64,7 @@ class TranslationToolsController extends Controller
 
         try {
             $csvPath = config('translation-handler.csvPath', storage_path('lang'));
-            $csvFileName = config('translation-handler.csvFileName', 'translations') . '.csv';
+            $csvFileName = config('translation-handler.csvFileName', 'translations').'.csv';
 
             File::ensureDirectoryExists($csvPath);
 
@@ -72,11 +72,11 @@ class TranslationToolsController extends Controller
 
             TranslationHandler::import(TranslationOptions::CSV, TranslationOptions::DB, true);
 
-            File::delete($csvPath . DIRECTORY_SEPARATOR . $csvFileName);
+            File::delete($csvPath.DIRECTORY_SEPARATOR.$csvFileName);
 
             return redirect()->back()->with('status', 'Translations imported from CSV successfully.');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Import failed: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Import failed: '.$e->getMessage());
         }
     }
 }
