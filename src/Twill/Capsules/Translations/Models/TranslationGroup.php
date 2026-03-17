@@ -4,12 +4,13 @@ namespace BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Models
 
 use A17\Twill\Models\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * @property string $prefix
  * @property bool $published
  * @property-read int $translations_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Translation> $translation_items
+ * @property-read Collection<int, Translation> $translation_items
  */
 class TranslationGroup extends Model
 {
@@ -34,9 +35,9 @@ class TranslationGroup extends Model
     /**
      * Accessor used by HandleRepeaters to iterate translation items.
      *
-     * @return \Illuminate\Database\Eloquent\Collection<int, Translation>
+     * @return Collection<int, Translation>
      */
-    public function getTranslationItemsAttribute(): \Illuminate\Database\Eloquent\Collection
+    public function getTranslationItemsAttribute(): Collection
     {
         return $this->getTranslationsQuery()->with('translations')->get();
     }
