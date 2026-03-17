@@ -12,26 +12,35 @@ class TranslationsCapsuleServiceProvider extends TwillPackageServiceProvider
 
     public function boot(): void
     {
-        $this->registerCapsuleWithoutNavigation('Translations');
-        $this->registerNavigation();
-    }
-
-    protected function registerCapsuleWithoutNavigation(string $name): void
-    {
-        $namespace = $this->getCapsuleNamespace().'\\Twill\\Capsules\\'.$name;
-        $dir = $this->getPackageDirectory().DIRECTORY_SEPARATOR
+        $capsulePath = $this->getPackageDirectory().DIRECTORY_SEPARATOR
             .'src'.DIRECTORY_SEPARATOR
             .'Twill'.DIRECTORY_SEPARATOR
-            .'Capsules'.DIRECTORY_SEPARATOR.$name;
+            .'Capsules'.DIRECTORY_SEPARATOR.'Translations';
 
+        $baseNamespace = $this->getCapsuleNamespace().'\\Twill\\Capsules\\Translations';
+
+        // Register Translations module
         TwillCapsules::registerPackageCapsule(
-            $name,
-            $namespace,
-            $dir,
+            'Translations',
+            $baseNamespace,
+            $capsulePath,
             null,
             true,
             false
         );
+
+        // Register TranslationGroups module (same capsule path, same namespace)
+        TwillCapsules::registerPackageCapsule(
+            'TranslationGroups',
+            $baseNamespace,
+            $capsulePath,
+            null,
+            true,
+            false
+        );
+
+        $this->registerRepeatersDirectory($capsulePath.'/resources/views/admin/repeaters');
+        $this->registerNavigation();
     }
 
     protected function registerNavigation(): void
@@ -40,15 +49,19 @@ class TranslationsCapsuleServiceProvider extends TwillPackageServiceProvider
 
         $config['translations'] = [
             'title' => 'Translations',
-            'route' => 'admin.translations.index',
+            'route' => 'admin.translations.translations.index',
             'primary_navigation' => [
                 'translations' => [
                     'title' => 'Keys',
-                    'route' => 'admin.translations.index',
+                    'route' => 'admin.translations.translations.index',
+                ],
+                'translationGroups' => [
+                    'title' => 'Groups',
+                    'route' => 'admin.translations.translationGroups.index',
                 ],
                 'translationTools' => [
                     'title' => 'Import / Export',
-                    'route' => 'admin.translationTools.index',
+                    'route' => 'admin.translations.translationTools.index',
                 ],
             ],
         ];

@@ -20,26 +20,36 @@ it('requires unique key on create', function () {
     expect($rules['key'])->toContain('unique:translation_keys,key');
 });
 
-it('requires value for each configured locale on update', function () {
-    config()->set('translation-handler.locales', ['en', 'it']);
+it('requires value for each active locale on update', function () {
+    config()->set('translatable.locales', ['en', 'it']);
 
-    $request = new TranslationRequest;
+    $request = TranslationRequest::create('/test', 'PUT', [
+        'languages' => [
+            ['value' => 'en', 'published' => true],
+            ['value' => 'it', 'published' => true],
+        ],
+    ]);
     $rules = $request->rulesForUpdate();
 
-    expect($rules)->toHaveKey('translations.en.value')
-        ->and($rules)->toHaveKey('translations.it.value')
-        ->and($rules['translations.en.value'])->toBe('required|string')
-        ->and($rules['translations.it.value'])->toBe('required|string');
+    expect($rules)->toHaveKey('value.en')
+        ->and($rules)->toHaveKey('value.it');
+
+    expect($rules['value.en'])->toContain('required');
+    expect($rules['value.it'])->toContain('required');
 });
 
-it('adapts validation to configured locales', function () {
-    config()->set('translation-handler.locales', ['en', 'fr', 'de']);
+it('makes value nullable for inactive locales', function () {
+    config()->set('translatable.locales', ['en', 'it']);
 
-    $request = new TranslationRequest;
+    $request = TranslationRequest::create('/test', 'PUT', [
+        'languages' => [
+            ['value' => 'en', 'published' => true],
+            ['value' => 'it', 'published' => false],
+        ],
+    ]);
     $rules = $request->rulesForUpdate();
 
-    expect($rules)->toHaveCount(3)
-        ->and($rules)->toHaveKey('translations.en.value')
-        ->and($rules)->toHaveKey('translations.fr.value')
-        ->and($rules)->toHaveKey('translations.de.value');
+    expect($rules['value.en'])->toContain('required');
+    expect($rules['value.it'])->toContain('nullable')
+        ->and($rules['value.it'])->not->toContain('required');
 });

@@ -12,12 +12,11 @@
 # Install dependencies
 composer install
 
-# Install the translation handler package (publishes config + migrations)
-php vendor/bin/testbench translation-handler:install
-
 # Build the workbench environment (creates SQLite DB, runs migrations, seeds)
 composer build
 ```
+
+> **Note:** `translation-handler:install` is NOT required for development. Our capsule migrations are self-contained: they CREATE the base tables if they don't exist, or ALTER them if they were already created by the base package.
 
 ## Running the dev server
 
@@ -36,6 +35,21 @@ Default credentials: `test@test.test` / `test@test.test`
 
 > **Note:** The Twill admin uses a subdomain (`admin.localhost`). Make sure your `/etc/hosts` has `127.0.0.1 admin.localhost` or access it via `curl -H "Host: admin.localhost" http://127.0.0.1:8000`.
 
+## Resetting the database
+
+```bash
+# Delete the SQLite database and rebuild
+rm -f vendor/orchestra/testbench-core/laravel/database/database.sqlite
+composer build
+```
+
+Our capsule migrations are self-contained (CREATE-or-ALTER pattern), so `composer build` always works from a clean state without any additional setup.
+
+> **Note:** If you previously ran `translation-handler:install`, published migrations may exist in `vendor/orchestra/testbench-core/laravel/database/migrations/`. These can conflict with tests. Remove them with:
+> ```bash
+> rm -f vendor/orchestra/testbench-core/laravel/database/migrations/*translation*
+> ```
+
 ## Common commands
 
 ### Tests
@@ -53,6 +67,8 @@ vendor/bin/pest tests/TranslationModelTest.php
 # Run a specific test
 vendor/bin/pest --filter="can create a translation key"
 ```
+
+> **Note:** Tests use an in-memory SQLite database with inline table definitions in `tests/TestCase.php`. They do not depend on published migrations.
 
 ### Code style (Pint)
 
@@ -88,8 +104,6 @@ php vendor/bin/testbench <command>
 
 # Examples
 php vendor/bin/testbench migrate
-php vendor/bin/testbench migrate:rollback
-php vendor/bin/testbench migrate:fresh
 php vendor/bin/testbench tinker
 php vendor/bin/testbench route:list
 php vendor/bin/testbench db:seed --class="Workbench\\Database\\Seeders\\DatabaseSeeder"
@@ -115,22 +129,33 @@ php vendor/bin/testbench translation-handler:set db test.key en "value"
 
 ```
 src/
-├── DatabaseHandler.php                     # Custom DB handler (extends base package)
-├── TranslationsCapsuleServiceProvider.php  # Registers Twill capsules + navigation
+├── DatabaseHandler.php                     # Custom DB handler (creates groups on import)
+├── TranslationsCapsuleServiceProvider.php  # Registers Twill capsule + navigation
 ├── Twill2TranslationHandlerServiceProvider.php  # Package config, views, admin routes
 ├── Http/Controllers/
 │   └── TranslationToolsController.php      # Import/Export page controller
-└── Twill/Capsules/Translations/            # Twill capsule
+└── Twill/Capsules/Translations/            # Twill capsule (all modules)
     ├── Models/
-    │   ├── Translation.php                 # Uses translation_keys table
-    │   └── TranslationTranslation.php      # Uses translation_values table
-    ├── Http/
-    │   ├── Controllers/TranslationController.php
-    │   └── Requests/TranslationRequest.php
-    ├── Repositories/TranslationRepository.php
-    ├── database/migrations/                # ALTER TABLE migrations (add published, active)
+    │   ├── Translation.php                 # translation_keys table
+    │   ├── TranslationTranslation.php      # translation_values table
+    │   └── TranslationGroup.php            # translation_groups table
+    ├── Http/Controllers/
+    │   ├── TranslationController.php       # Keys CRUD
+    │   └── TranslationGroupController.php  # Groups listing + edit
+    ├── Http/Requests/
+    │   ├── TranslationRequest.php
+    │   └── TranslationGroupRequest.php
+    ├── Repositories/
+    │   ├── TranslationRepository.php
+    │   └── TranslationGroupRepository.php  # Repeater data <-> translation_values
+    ├── database/migrations/                # ALTER TABLE + CREATE translation_groups
     ├── resources/views/admin/
-    └── routes/admin.php
+    │   ├── form.blade.php                  # Translation edit form
+    │   ├── create.blade.php                # Translation create modal
+    │   ├── groupForm.blade.php             # Group edit form (with repeater)
+    │   └── repeaters/
+    │       └── translation_item.blade.php  # Repeater item (key + translated value)
+    └── routes/admin.php                    # translations + translationGroups modules
 
 config/
 └── translation-handler.php     # Package config (locales, file names, handlers, paths)
@@ -148,10 +173,13 @@ workbench/                      # Dev/test environment (orchestra/testbench)
 
 ## Database
 
-This package relies on two tables from `brunoscode/laravel-translation-handler`:
+This package uses three tables:
 
-- `translation_keys` — stores translation keys
-- `translation_values` — stores per-locale values (FK to translation_keys)
+| Table | Created by | Purpose |
+|-------|-----------|---------|
+| `translation_keys` | laravel-translation-handler | Translation keys |
+| `translation_values` | laravel-translation-handler | Per-locale values (FK to keys) |
+| `translation_groups` | This package | Groups by key prefix |
 
 Our capsule migrations add two columns required by Twill:
 
@@ -160,19 +188,19 @@ Our capsule migrations add two columns required by Twill:
 
 These migrations include `hasTable`/`hasColumn` guards so they are safe to run in any order.
 
-## Adding a new capsule
+## Adding a new module inside the Translations capsule
 
-1. Create the capsule directory under `src/Twill/Capsules/<Name>/` following the Twill 2 structure (Models, Controllers, Requests, Repositories, views, routes, migrations).
+1. Create Model, Controller, Request, Repository under the existing `src/Twill/Capsules/Translations/` directories.
 
-2. Register it in `TranslationsCapsuleServiceProvider::boot()`:
+2. Add the route in `src/Twill/Capsules/Translations/routes/admin.php`:
 
 ```php
-$this->registerCapsuleWithoutNavigation('NewCapsule');
+Route::module('newModuleName');
 ```
 
-3. Add navigation in `registerNavigation()` if needed.
+3. Add navigation in `TranslationsCapsuleServiceProvider::registerNavigation()` if needed.
 
-4. Run `composer build` to apply migrations.
+4. Reset the database (see [Resetting the database](#resetting-the-database)).
 
 ## Updating dependencies
 

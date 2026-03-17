@@ -5,6 +5,10 @@ namespace BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Models
 use A17\Twill\Models\Behaviors\HasTranslation;
 use A17\Twill\Models\Model;
 
+/**
+ * @property string $key
+ * @property bool $published
+ */
 class Translation extends Model
 {
     use HasTranslation;

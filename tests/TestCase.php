@@ -56,7 +56,9 @@ class TestCase extends Orchestra
 
         $app['config']->set('translation-handler.locales', ['en', 'it']);
         $app['config']->set('translation-handler.fileNames', ['test']);
-        $app['config']->set('twill.admin_app_url', 'http://admin.localhost');
+        $app['config']->set('translatable.locales', ['en', 'it']);
+        $app['config']->set('twill.admin_app_url', '');
+        $app['config']->set('twill.admin_app_path', 'admin');
     }
 
     protected function defineDatabaseMigrations()
@@ -86,6 +88,14 @@ class TestCase extends Orchestra
             $table->timestamps();
             $table->softDeletes();
             $table->unique(['translation_key_id', 'locale']);
+        });
+
+        Schema::create('translation_groups', function ($table) {
+            $table->id();
+            $table->string('prefix')->unique();
+            $table->boolean('published')->default(true);
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 }

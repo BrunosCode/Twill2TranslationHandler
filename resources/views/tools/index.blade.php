@@ -33,14 +33,14 @@
                 </p>
 
                 <div style="display: flex; gap: 12px;">
-                    <form method="POST" action="{{ route('admin.translationTools.importFromPhp') }}">
+                    <form method="POST" action="{{ route('admin.translations.translationTools.importFromPhp') }}">
                         @csrf
                         <button type="submit" class="btn" style="background: #3182ce; color: #fff; padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 13px;">
                             Import from PHP
                         </button>
                     </form>
 
-                    <form method="POST" action="{{ route('admin.translationTools.exportToPhp') }}">
+                    <form method="POST" action="{{ route('admin.translations.translationTools.exportToPhp') }}">
                         @csrf
                         <button type="submit" class="btn" style="background: #2f855a; color: #fff; padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 13px;">
                             Export to PHP
@@ -57,14 +57,14 @@
                 </p>
 
                 <div style="display: flex; flex-direction: column; gap: 16px;">
-                    <form method="POST" action="{{ route('admin.translationTools.exportToCsv') }}">
+                    <form method="POST" action="{{ route('admin.translations.translationTools.exportToCsv') }}">
                         @csrf
                         <button type="submit" class="btn" style="background: #2f855a; color: #fff; padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 13px;">
                             Download CSV
                         </button>
                     </form>
 
-                    <form method="POST" action="{{ route('admin.translationTools.importFromCsv') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('admin.translations.translationTools.importFromCsv') }}" enctype="multipart/form-data">
                         @csrf
                         <div style="display: flex; align-items: center; gap: 12px;">
                             <input type="file" name="csv_file" accept=".csv" required

@@ -2,4 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::module('translations');
+Route::group(['prefix' => 'translations'], function () {
+    Route::module('translations');
+    Route::module('translationGroups');
+});

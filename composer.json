@@ -57,7 +57,7 @@
         "build": [
             "[ ! -L ./testbench-core ] || rm ./testbench-core",
             "@php vendor/bin/testbench workbench:build --ansi",
-            "@php vendor/bin/testbench twill:build",
+            "export NODE_OPTIONS=--openssl-legacy-provider && php vendor/bin/testbench twill:build",
             "ln -s ./vendor/orchestra/testbench-core/laravel ./testbench-core"
         ],
         "start": [
@@ -71,7 +71,6 @@
         "format": "vendor/bin/pint",
         "serve": [
             "Composer\\Config::disableProcessTimeout",
-            "@build",
             "@php vendor/bin/testbench serve --ansi"
         ],
         "lint": [

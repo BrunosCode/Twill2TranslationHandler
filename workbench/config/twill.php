@@ -1,12 +1,6 @@
 <?php
 
 return [
-    // 'capsules' => [
-    //     'list' => [
-    //         [
-    //             'name' => 'Translations',
-    //             'enabled' => true
-    //         ],
-    //     ],
-    // ],
+    'admin_app_url' => '',
+    'admin_app_path' => 'admin',
 ];

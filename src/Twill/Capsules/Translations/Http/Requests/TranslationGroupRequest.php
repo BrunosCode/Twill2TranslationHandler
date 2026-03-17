@@ -4,19 +4,15 @@ namespace BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Http\R
 
 use A17\Twill\Http\Requests\Admin\Request;
 
-class TranslationRequest extends Request
+class TranslationGroupRequest extends Request
 {
     public function rulesForCreate()
     {
-        return [
-            'key' => 'required|string|unique:translation_keys,key',
-        ];
+        return [];
     }
 
     public function rulesForUpdate()
     {
-        return $this->rulesForTranslatedFields([], [
-            'value' => 'required|string',
-        ]);
+        return [];
     }
 }

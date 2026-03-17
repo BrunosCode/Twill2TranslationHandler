@@ -6,22 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
+        if (Schema::hasTable('translation_groups')) {
+            return;
+        }
+
         Schema::create('translation_groups', function (Blueprint $table) {
             $table->id();
-
-            $table->string('prefix');
-            $table->unique('prefix');
-
-            $table->boolean('published')->default(1);
-
+            $table->string('prefix')->unique();
+            $table->boolean('published')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('translation_groups');
     }
