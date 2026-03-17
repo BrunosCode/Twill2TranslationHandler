@@ -1,5 +1,11 @@
 <?php
 
+use BrunosCode\TranslationHandler\CsvFileHandler;
+use BrunosCode\TranslationHandler\Data\TranslationOptions;
+use BrunosCode\TranslationHandler\JsonFileHandler;
+use BrunosCode\TranslationHandler\PhpFileHandler;
+use BrunosCode\Twill2TranslationHandler\DatabaseHandler;
+
 // config for BrunosCode/TranslationHandler
 
 return [
@@ -8,15 +14,15 @@ return [
     'fileNames' => ['test'],
     'locales' => ['en', 'it'],
 
-    'defaultImportFrom' => \BrunosCode\TranslationHandler\Data\TranslationOptions::PHP,
-    'defaultImportTo' => \BrunosCode\TranslationHandler\Data\TranslationOptions::DB,
-    'defaultExportFrom' => \BrunosCode\TranslationHandler\Data\TranslationOptions::DB,
-    'defaultExportTo' => \BrunosCode\TranslationHandler\Data\TranslationOptions::PHP,
+    'defaultImportFrom' => TranslationOptions::PHP,
+    'defaultImportTo' => TranslationOptions::DB,
+    'defaultExportFrom' => TranslationOptions::DB,
+    'defaultExportTo' => TranslationOptions::PHP,
 
-    'phpHandlerClass' => \BrunosCode\TranslationHandler\PhpFileHandler::class,
-    'csvHandlerClass' => \BrunosCode\TranslationHandler\CsvFileHandler::class,
-    'jsonHandlerClass' => \BrunosCode\TranslationHandler\JsonFileHandler::class,
-    'dbHandlerClass' => \BrunosCode\Twill2TranslationHandler\DatabaseHandler::class,
+    'phpHandlerClass' => PhpFileHandler::class,
+    'csvHandlerClass' => CsvFileHandler::class,
+    'jsonHandlerClass' => JsonFileHandler::class,
+    'dbHandlerClass' => DatabaseHandler::class,
 
     'phpFormat' => false,
     'phpPath' => lang_path(),

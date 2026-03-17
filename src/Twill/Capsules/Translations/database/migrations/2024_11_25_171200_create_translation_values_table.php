@@ -14,7 +14,7 @@ return new class extends Migration
             $table->foreignId('translation_key_id')->constrained('translation_keys')->onDelete('cascade');
             $table->string('locale', 7);
             $table->unique(['translation_key_id', 'locale']);
-            
+
             $table->text('value')->nullable();
 
             $table->boolean('active')->default(1);

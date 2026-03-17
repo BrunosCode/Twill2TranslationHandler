@@ -6,7 +6,6 @@ namespace Workbench\Database\Seeders;
 use A17\Twill\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Workbench\Database\Factories\UserFactory;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         $email = 'test@test.test';
         $password = 'test@test.test';
-        
+
         $user = User::create([
             'name' => 'Admin',
             'email' => $email,

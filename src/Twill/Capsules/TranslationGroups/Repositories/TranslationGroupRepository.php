@@ -5,7 +5,6 @@ namespace BrunosCode\Twill2TranslationHandler\Twill\Capsules\TranslationGroups\R
 use A17\Twill\Repositories\Behaviors\HandleTranslations;
 use A17\Twill\Repositories\ModuleRepository;
 use BrunosCode\Twill2TranslationHandler\Twill\Capsules\TranslationGroups\Models\TranslationGroup;
-use BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Models\Translation;
 
 class TranslationGroupRepository extends ModuleRepository
 {
@@ -19,7 +18,7 @@ class TranslationGroupRepository extends ModuleRepository
     public function getFormFields($object)
     {
         assert($object instanceof TranslationGroup);
-        
+
         $fields = parent::getFormFields($object);
 
         // $fields = $this->getTranslationsFields($object);
@@ -39,11 +38,10 @@ class TranslationGroupRepository extends ModuleRepository
                     'value' => $translation->translations->mapWithKeys(function ($item, $key) {
                         return [$item->locale => $item->value];
                     })->toArray(),
-                ]
+                ],
             ];
         }
 
         return $fields;
     }
-
 }

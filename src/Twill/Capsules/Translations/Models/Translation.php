@@ -5,7 +5,7 @@ namespace BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Models
 use A17\Twill\Models\Behaviors\HasTranslation;
 use A17\Twill\Models\Model;
 
-class Translation extends Model 
+class Translation extends Model
 {
     use HasTranslation;
 
@@ -16,7 +16,7 @@ class Translation extends Model
         'key',
         'value',
     ];
-    
+
     public $translatedAttributes = [
         'value',
         'active',

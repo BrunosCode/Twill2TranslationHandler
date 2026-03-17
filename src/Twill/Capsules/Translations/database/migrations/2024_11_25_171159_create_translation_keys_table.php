@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('translation_keys', function (Blueprint $table) {
             $table->id();
 
-            $table->string('key')->unique();  
+            $table->string('key')->unique();
 
             $table->boolean('published')->default(1);
 

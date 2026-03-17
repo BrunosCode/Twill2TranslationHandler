@@ -13,7 +13,7 @@ return new class extends Migration
 
             $table->string('prefix');
             $table->unique('prefix');
-            
+
             $table->boolean('published')->default(1);
 
             $table->timestamps();

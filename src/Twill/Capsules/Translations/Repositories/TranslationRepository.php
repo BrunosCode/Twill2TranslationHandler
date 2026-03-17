@@ -25,15 +25,15 @@ class TranslationRepository extends ModuleRepository
         $model = null;
         DB::transaction(function () use ($fields, &$model) {
             if (
-                !is_array($fields)
-                || !is_array($fields['value'])
+                ! is_array($fields)
+                || ! is_array($fields['value'])
                 || empty($fields['value'])
                 || empty($fields['key'])
             ) {
                 throw new \Exception('Invalid fields');
             }
 
-            $collection = new TranslationCollection();
+            $collection = new TranslationCollection;
 
             foreach ($fields['value'] as $locale => $value) {
                 $collection->addTranslation(new TranslationData($fields['key'], $locale, $value));
@@ -56,15 +56,15 @@ class TranslationRepository extends ModuleRepository
         DB::transaction(function () use ($fields, &$model) {
 
             if (
-                !is_array($fields)
-                || !is_array($fields['value'])
+                ! is_array($fields)
+                || ! is_array($fields['value'])
                 || empty($fields['value'])
                 || empty($fields['key'])
             ) {
                 throw new \Exception('Invalid fields');
             }
 
-            $collection = new TranslationCollection();
+            $collection = new TranslationCollection;
 
             foreach ($fields['value'] as $locale => $value) {
                 $collection->addTranslation(new TranslationData($fields['key'], $value, $locale));
@@ -73,7 +73,7 @@ class TranslationRepository extends ModuleRepository
             TranslationHandler::set($collection, TranslationOptions::DB);
             $model = Translation::where('key', $fields['key'])->first();
         });
-        
+
         TranslationHandler::export();
 
         return $model;

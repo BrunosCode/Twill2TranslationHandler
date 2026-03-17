@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unique(['translation_group_id', 'locale']);
 
             $table->string('description')->nullable();
-            
+
             $table->boolean('active')->default(1);
 
             $table->timestamps();
