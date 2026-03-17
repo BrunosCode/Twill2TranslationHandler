@@ -63,7 +63,7 @@ class TestCase extends Orchestra
     {
         // Twill core tables
         $this->loadMigrationsFrom(
-            __DIR__ . '/../vendor/area17/twill/migrations/default'
+            __DIR__.'/../vendor/area17/twill/migrations/default'
         );
 
         // Translation tables (complete with Twill columns)

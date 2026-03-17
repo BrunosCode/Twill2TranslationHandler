@@ -2,6 +2,7 @@
 
 use BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Models\Translation;
 use BrunosCode\Twill2TranslationHandler\Twill\Capsules\Translations\Models\TranslationTranslation;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
@@ -66,7 +67,7 @@ it('enforces unique keys', function () {
     Translation::create(['key' => 'test.unique']);
 
     Translation::create(['key' => 'test.unique']);
-})->throws(\Illuminate\Database\QueryException::class);
+})->throws(QueryException::class);
 
 it('enforces unique locale per key', function () {
     $translation = Translation::create(['key' => 'test.locale']);
@@ -80,7 +81,7 @@ it('enforces unique locale per key', function () {
         'locale' => 'en',
         'value' => 'Duplicate',
     ]);
-})->throws(\Illuminate\Database\QueryException::class);
+})->throws(QueryException::class);
 
 it('supports soft deletes', function () {
     $translation = Translation::create(['key' => 'test.soft']);
@@ -104,13 +105,13 @@ it('cascades delete to translation values', function () {
 });
 
 it('uses translation_keys as table name', function () {
-    $translation = new Translation();
+    $translation = new Translation;
 
     expect($translation->getTable())->toBe('translation_keys');
 });
 
 it('uses translation_key_id as foreign key', function () {
-    $translation = new Translation();
+    $translation = new Translation;
 
     expect($translation->getTranslationRelationKey())->toBe('translation_key_id');
 });

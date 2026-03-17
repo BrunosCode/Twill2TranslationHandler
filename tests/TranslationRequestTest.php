@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 it('requires key on create', function () {
-    $request = new TranslationRequest();
+    $request = new TranslationRequest;
     $rules = $request->rulesForCreate();
 
     expect($rules)->toHaveKey('key')
@@ -14,7 +14,7 @@ it('requires key on create', function () {
 });
 
 it('requires unique key on create', function () {
-    $request = new TranslationRequest();
+    $request = new TranslationRequest;
     $rules = $request->rulesForCreate();
 
     expect($rules['key'])->toContain('unique:translation_keys,key');
@@ -23,7 +23,7 @@ it('requires unique key on create', function () {
 it('requires value for each configured locale on update', function () {
     config()->set('translation-handler.locales', ['en', 'it']);
 
-    $request = new TranslationRequest();
+    $request = new TranslationRequest;
     $rules = $request->rulesForUpdate();
 
     expect($rules)->toHaveKey('translations.en.value')
@@ -35,7 +35,7 @@ it('requires value for each configured locale on update', function () {
 it('adapts validation to configured locales', function () {
     config()->set('translation-handler.locales', ['en', 'fr', 'de']);
 
-    $request = new TranslationRequest();
+    $request = new TranslationRequest;
     $rules = $request->rulesForUpdate();
 
     expect($rules)->toHaveCount(3)
