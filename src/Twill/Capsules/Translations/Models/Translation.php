@@ -11,16 +11,17 @@ class Translation extends Model
 
     protected $table = 'translation_keys';
 
+    public $translationModel = TranslationTranslation::class;
+
+    public $translationForeignKey = 'translation_key_id';
+
     protected $fillable = [
-        // 'published',
         'key',
-        'value',
+        'published',
     ];
 
     public $translatedAttributes = [
         'value',
         'active',
     ];
-
-    public $translationForeignKey = 'translation_key_id';
 }

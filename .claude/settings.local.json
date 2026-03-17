@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(composer install:*)",
+      "Bash(php vendor/bin/testbench migrate)",
+      "Bash(php vendor/bin/testbench workbench:build)",
+      "Bash(php vendor/bin/testbench serve)",
+      "Bash(composer update:*)",
+      "Bash(composer show:*)",
+      "Bash(php vendor/bin/testbench laravel-translation-handler:install)",
+      "Bash(php vendor/bin/testbench translation-handler:install)",
+      "Bash(php vendor/bin/testbench route:list --path=translations)"
+    ]
+  }
+}

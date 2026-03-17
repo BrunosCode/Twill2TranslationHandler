@@ -8,11 +8,20 @@ class TranslationRequest extends Request
 {
     public function rulesForCreate()
     {
-        return [];
+        return [
+            'key' => 'required|string|unique:translation_keys,key',
+        ];
     }
 
     public function rulesForUpdate()
     {
-        return [];
+        $locales = config('translation-handler.locales', ['en']);
+
+        $rules = [];
+        foreach ($locales as $locale) {
+            $rules["translations.{$locale}.value"] = 'required|string';
+        }
+
+        return $rules;
     }
 }

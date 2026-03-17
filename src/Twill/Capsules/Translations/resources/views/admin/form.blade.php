@@ -1,11 +1,17 @@
 @extends('twill::layouts.form')
 
 @section('contentFields')
-{{-- @dd($form_fields) --}}
+    @formField('input', [
+        'name' => 'key',
+        'label' => 'Key',
+        'disabled' => true,
+    ])
+
     @formField('input', [
         'name' => 'value',
-        'label' => 'Translation',
+        'label' => 'Value',
         'translated' => true,
-        'textarea' => true,
+        'required' => true,
+        'type' => 'textarea',
     ])
 @stop
