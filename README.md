@@ -23,8 +23,8 @@ A [Twill CMS](https://twillcms.com) capsule for managing Laravel translations di
 ## Requirements
 
 - PHP 8.2 or 8.3
-- Laravel 10 or 11
-- Twill 2.x (Twill 3 support planned for a future release)
+- Laravel 10
+- Twill 2.x (Twill 3 and Laravel 11 support planned for a future release)
 - [brunoscode/laravel-translation-handler](https://github.com/BrunosCode/LaravelTranslationHandler) ^1.0
 
 ## Installation
