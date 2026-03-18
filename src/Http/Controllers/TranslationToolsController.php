@@ -16,28 +16,6 @@ class TranslationToolsController extends Controller
         return view('twill-translation-handler::tools.index');
     }
 
-    public function exportToPhp(Request $request)
-    {
-        try {
-            TranslationHandler::export(TranslationOptions::DB, TranslationOptions::PHP, true);
-
-            return redirect()->back()->with('status', 'Translations exported to PHP files successfully.');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Export failed: '.$e->getMessage());
-        }
-    }
-
-    public function importFromPhp(Request $request)
-    {
-        try {
-            TranslationHandler::import(TranslationOptions::PHP, TranslationOptions::DB, true);
-
-            return redirect()->back()->with('status', 'Translations imported from PHP files successfully.');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Import failed: '.$e->getMessage());
-        }
-    }
-
     public function exportToCsv(Request $request)
     {
         try {
@@ -50,7 +28,10 @@ class TranslationToolsController extends Controller
                 File::delete($filePath);
             }
 
-            TranslationHandler::export(TranslationOptions::DB, TranslationOptions::CSV, true);
+            TranslationHandler::setOption('csvDelimiter', $request->input('csv_delimiter', config('translation-handler.csvDelimiter', ';')))
+                ->export(TranslationOptions::DB, TranslationOptions::CSV, true);
+
+            TranslationHandler::resetOptions();
 
             if (! File::exists($filePath)) {
                 return redirect()->back()->with('error', 'CSV file was not generated.');
@@ -76,9 +57,14 @@ class TranslationToolsController extends Controller
 
             $request->file('csv_file')->move($csvPath, $csvFileName);
 
-            TranslationHandler::import(TranslationOptions::CSV, TranslationOptions::DB, true);
+            TranslationHandler::setOption('csvDelimiter', $request->input('csv_delimiter', config('translation-handler.csvDelimiter', ';')))
+                ->import(TranslationOptions::CSV, TranslationOptions::DB, true);
+
+            TranslationHandler::resetOptions();
 
             File::delete($csvPath.DIRECTORY_SEPARATOR.$csvFileName);
+
+            TranslationHandler::export(TranslationOptions::DB, TranslationOptions::PHP, true);
 
             return redirect()->back()->with('status', 'Translations imported from CSV successfully.');
         } catch (\Exception $e) {
@@ -86,7 +72,7 @@ class TranslationToolsController extends Controller
         }
     }
 
-    public function exportGroupCsv(Request $request, int $id)
+    public function exportGroupCsv(int $id)
     {
         $group = TranslationGroup::findOrFail($id);
 
@@ -138,9 +124,12 @@ class TranslationToolsController extends Controller
             TranslationHandler::setOption('fileNames', [$group->prefix])
                 ->import(TranslationOptions::CSV, TranslationOptions::DB, true);
 
-            TranslationHandler::resetOptions();
-
             File::delete($csvPath.DIRECTORY_SEPARATOR.$csvFileName);
+
+            TranslationHandler::setOption('fileNames', [$group->prefix])
+                ->export(TranslationOptions::DB, TranslationOptions::PHP, true);
+
+            TranslationHandler::resetOptions();
 
             return redirect()->back()->with('status', 'Translations imported from CSV successfully.');
         } catch (\Exception $e) {

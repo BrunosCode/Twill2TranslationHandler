@@ -4,6 +4,8 @@ namespace BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Reposit
 
 use A17\Twill\Repositories\Behaviors\HandleRepeaters;
 use A17\Twill\Repositories\ModuleRepository;
+use BrunosCode\TranslationHandler\Data\TranslationOptions;
+use BrunosCode\TranslationHandler\Facades\TranslationHandler;
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\Translation;
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
 use Illuminate\Support\Facades\DB;
@@ -72,7 +74,16 @@ class TranslationGroupRepository extends ModuleRepository
 
         unset($fields['repeaters'], $fields['blocks']);
 
-        return parent::update($id, $fields);
+        $result = parent::update($id, $fields);
+
+        $group = TranslationGroup::findOrFail($id);
+
+        TranslationHandler::setOption('fileNames', [$group->prefix])
+            ->export(TranslationOptions::DB, TranslationOptions::PHP, true);
+
+        TranslationHandler::resetOptions();
+
+        return $result;
     }
 
     protected function syncTranslationValues(array $fields): void

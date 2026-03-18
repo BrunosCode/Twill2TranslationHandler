@@ -1,18 +1,26 @@
 {
-    "permissions": {
-        "allow": [
-            "Bash(composer install:*)",
-            "Bash(php vendor/bin/testbench migrate)",
-            "Bash(php vendor/bin/testbench workbench:build)",
-            "Bash(php vendor/bin/testbench serve)",
-            "Bash(composer update:*)",
-            "Bash(composer show:*)",
-            "Bash(php vendor/bin/testbench laravel-translation-handler:install)",
-            "Bash(php vendor/bin/testbench translation-handler:install)",
-            "Bash(php vendor/bin/testbench route:list --path=translations)",
-            "Bash(grep -r \"allowCreate\\\\|allow_create\\\\|max\\\\|''''max''''\" /Users/edoardomagnani/Code/mine/Twill2TranslationHandler/vendor/area17/twill/frontend/js --include=*.js --include=*.vue -l)",
-            "Bash(find . -not -path './vendor/*' -not -path './.git/*' -not -path './build/*' -not -path './.claude/*' -type f \\\\\\( -name '*.php' -o -name '*.json' -o -name '*.md' -o -name '*.xml' -o -name '*.yml' -o -name '*.dist' \\\\\\) -exec sed -i '' 's/Twill2TranslationHandler/TwillTranslationHandler/g; s/twill-2-translation-handler/twill-translation-handler/g' {} +)",
-            "Bash(composer dump-autoload:*)"
-        ]
-    }
+  "permissions": {
+    "allow": [
+      "Bash(composer install:*)",
+      "Bash(php vendor/bin/testbench migrate)",
+      "Bash(php vendor/bin/testbench workbench:build)",
+      "Bash(php vendor/bin/testbench serve)",
+      "Bash(composer update:*)",
+      "Bash(composer show:*)",
+      "Bash(php vendor/bin/testbench laravel-translation-handler:install)",
+      "Bash(php vendor/bin/testbench translation-handler:install)",
+      "Bash(php vendor/bin/testbench route:list --path=translations)",
+      "Bash(grep -r \"allowCreate\\\\|allow_create\\\\|max\\\\|''''max''''\" /Users/edoardomagnani/Code/mine/Twill2TranslationHandler/vendor/area17/twill/frontend/js --include=*.js --include=*.vue -l)",
+      "Bash(find . -not -path './vendor/*' -not -path './.git/*' -not -path './build/*' -not -path './.claude/*' -type f \\\\\\( -name '*.php' -o -name '*.json' -o -name '*.md' -o -name '*.xml' -o -name '*.yml' -o -name '*.dist' \\\\\\) -exec sed -i '' 's/Twill2TranslationHandler/TwillTranslationHandler/g; s/twill-2-translation-handler/twill-translation-handler/g' {} +)",
+      "Bash(composer dump-autoload:*)",
+      "Bash(composer test:*)",
+      "Bash(git -C /Users/edoardomagnani/Code/mine/TwillTranslationHandler branch -r)",
+      "Bash(git -C /Users/edoardomagnani/Code/mine/TwillTranslationHandler checkout main)",
+      "Bash(git merge:*)",
+      "Bash(git -C /Users/edoardomagnani/Code/mine/TwillTranslationHandler stash)",
+      "Bash(git stash:*)",
+      "Bash(git -C /Users/edoardomagnani/Code/mine/TwillTranslationHandler push origin --delete dependabot/github_actions/actions/checkout-6 dependabot/github_actions/ramsey/composer-install-4 dependabot/github_actions/stefanzweifel/git-auto-commit-action-7)",
+      "Bash(git -C /Users/edoardomagnani/Code/mine/TwillTranslationHandler push origin --delete dependabot/github_actions/ramsey/composer-install-4)"
+    ]
+  }
 }

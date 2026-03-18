@@ -1,9 +1,7 @@
 @extends('twill::layouts.free')
 
 @section('customPageContent')
-    <div style="padding: 20px 0;">
-        <h2 style="font-size: 18px; font-weight: 600; margin-bottom: 24px;">Import / Export</h2>
-
+    <div style="padding: 20px 0; background: #fff; border-radius: 8px; padding: 24px;">
         @if(session('status'))
             <div style="background: #c6f6d5; border: 1px solid #9ae6b4; padding: 12px 16px; border-radius: 4px; margin-bottom: 20px; color: #22543d;">
                 {{ session('status') }}
@@ -24,57 +22,57 @@
             </div>
         @endif
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
-            {{-- PHP Section --}}
-            <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 24px;">
-                <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 8px;">PHP Files</h3>
-                <p style="font-size: 13px; color: #718096; margin-bottom: 20px;">
-                    Import/export translations between the database and Laravel PHP language files.
-                </p>
+        <div style="display: grid; grid-template-columns: 1fr 1px 1fr; gap: 32px; align-items: start;">
+            {{-- Import --}}
+            <div>
+                <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 16px;">Import CSV</h3>
 
-                <div style="display: flex; gap: 12px;">
-                    <form method="POST" action="{{ route('admin.translations.translationTools.importFromPhp') }}">
-                        @csrf
+                <form method="POST" action="{{ route('admin.translations.translationTools.importFromCsv') }}" enctype="multipart/form-data">
+                    @csrf
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                        <input type="file" name="csv_file" accept=".csv" required
+                            style="font-size: 13px; padding: 6px; border: 1px solid #e2e8f0; border-radius: 4px;">
+                        <select name="csv_delimiter" style="font-size: 13px; padding: 6px; border: 1px solid #e2e8f0; border-radius: 4px;">
+                            <option value=";" {{ config('translation-handler.csvDelimiter', ';') === ';' ? 'selected' : '' }}>; (semicolon)</option>
+                            <option value="," {{ config('translation-handler.csvDelimiter', ';') === ',' ? 'selected' : '' }}>, (comma)</option>
+                            <option value="&#9;" {{ config('translation-handler.csvDelimiter', ';') === "\t" ? 'selected' : '' }}>⇥ (tab)</option>
+                        </select>
                         <button type="submit" class="btn" style="background: #3182ce; color: #fff; padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 13px;">
-                            Import from PHP
+                            Import
                         </button>
-                    </form>
-
-                    <form method="POST" action="{{ route('admin.translations.translationTools.exportToPhp') }}">
-                        @csrf
-                        <button type="submit" class="btn" style="background: #2f855a; color: #fff; padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 13px;">
-                            Export to PHP
-                        </button>
-                    </form>
-                </div>
+                    </div>
+                    <ul style="font-size: 12px; color: #718096; margin: 0;">
+                        <li>Only keys present in the file will be updated.</li>
+                        <li>All locale columns must be present in the header.</li>
+                        <li>Empty values will overwrite the existing translation with an empty string.</li>
+                    </ul>
+                </form>
             </div>
 
-            {{-- CSV Section --}}
-            <div style="background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 24px;">
-                <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 8px;">CSV</h3>
-                <p style="font-size: 13px; color: #718096; margin-bottom: 20px;">
-                    Export translations to CSV for download, or import from a CSV file.
-                </p>
+            {{-- Separator --}}
+            <div style="background: #e2e8f0; height: 100%;"></div>
 
-                <div style="display: flex; flex-direction: column; gap: 16px;">
-                    <form method="POST" action="{{ route('admin.translations.translationTools.exportToCsv') }}">
-                        @csrf
+            {{-- Export --}}
+            <div>
+                <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 16px;">Export CSV</h3>
+
+                <form method="POST" action="{{ route('admin.translations.translationTools.exportToCsv') }}">
+                    @csrf
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                        <select name="csv_delimiter" style="font-size: 13px; padding: 6px; border: 1px solid #e2e8f0; border-radius: 4px;">
+                            <option value=";" {{ config('translation-handler.csvDelimiter', ';') === ';' ? 'selected' : '' }}>; (semicolon)</option>
+                            <option value="," {{ config('translation-handler.csvDelimiter', ';') === ',' ? 'selected' : '' }}>, (comma)</option>
+                            <option value="&#9;" {{ config('translation-handler.csvDelimiter', ';') === "\t" ? 'selected' : '' }}>⇥ (tab)</option>
+                        </select>
                         <button type="submit" class="btn" style="background: #2f855a; color: #fff; padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 13px;">
                             Download CSV
                         </button>
-                    </form>
-
-                    <form method="POST" action="{{ route('admin.translations.translationTools.importFromCsv') }}" enctype="multipart/form-data">
-                        @csrf
-                        <div style="display: flex; align-items: center; gap: 12px;">
-                            <input type="file" name="csv_file" accept=".csv" required
-                                style="font-size: 13px; padding: 6px; border: 1px solid #e2e8f0; border-radius: 4px;">
-                            <button type="submit" class="btn" style="background: #3182ce; color: #fff; padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 13px;">
-                                Import CSV
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
+                <ul style="font-size: 12px; color: #718096; margin: 0;">
+                    <li>Exports all translations from the database.</li>
+                    <li>To download only a specific group, use the Download CSV button on the group's edit page.</li>
+                </ul>
             </div>
         </div>
     </div>

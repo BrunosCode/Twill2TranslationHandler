@@ -45,15 +45,11 @@ class TwillTranslationHandlerServiceProvider extends PackageServiceProvider
         $router->group($groupConfig, function ($router) {
             $router->get('translations/tools', 'TranslationToolsController@index')
                 ->name('translations.translationTools.index');
-            $router->post('translations/tools/export-php', 'TranslationToolsController@exportToPhp')
-                ->name('translations.translationTools.exportToPhp');
-            $router->post('translations/tools/import-php', 'TranslationToolsController@importFromPhp')
-                ->name('translations.translationTools.importFromPhp');
             $router->post('translations/tools/export-csv', 'TranslationToolsController@exportToCsv')
                 ->name('translations.translationTools.exportToCsv');
             $router->post('translations/tools/import-csv', 'TranslationToolsController@importFromCsv')
                 ->name('translations.translationTools.importFromCsv');
-            $router->post('translations/translationGroups/{id}/export-csv', 'TranslationToolsController@exportGroupCsv')
+            $router->get('translations/translationGroups/{id}/export-csv', 'TranslationToolsController@exportGroupCsv')
                 ->name('translations.translationGroups.exportCsv');
             $router->post('translations/translationGroups/{id}/import-csv', 'TranslationToolsController@importGroupCsv')
                 ->name('translations.translationGroups.importCsv');

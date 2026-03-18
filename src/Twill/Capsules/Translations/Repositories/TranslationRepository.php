@@ -4,6 +4,8 @@ namespace BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Reposit
 
 use A17\Twill\Repositories\Behaviors\HandleTranslations;
 use A17\Twill\Repositories\ModuleRepository;
+use BrunosCode\TranslationHandler\Data\TranslationOptions;
+use BrunosCode\TranslationHandler\Facades\TranslationHandler;
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\Translation;
 
 class TranslationRepository extends ModuleRepository
@@ -29,5 +31,22 @@ class TranslationRepository extends ModuleRepository
         }
 
         return parent::filter($query, $scopes);
+    }
+
+    public function afterSave($object, $fields)
+    {
+        try {
+            $delimiter = config('translation-handler.keyDelimiter', '.');
+            $prefix = explode($delimiter, $object->key)[0];
+
+            TranslationHandler::setOption('fileNames', [$prefix])
+                ->export(TranslationOptions::DB, TranslationOptions::PHP, true);
+
+            TranslationHandler::resetOptions();
+        } catch (\Throwable $e) {
+            TranslationHandler::resetOptions();
+        }
+
+        parent::afterSave($object, $fields);
     }
 }

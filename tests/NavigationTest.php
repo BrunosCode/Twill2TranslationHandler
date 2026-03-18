@@ -25,10 +25,6 @@ it('registers translationGroups edit route', function () {
 });
 
 it('registers translation tools action routes', function () {
-    expect(route('admin.translations.translationTools.exportToPhp'))
-        ->toContain('/translations/tools/export-php');
-    expect(route('admin.translations.translationTools.importFromPhp'))
-        ->toContain('/translations/tools/import-php');
     expect(route('admin.translations.translationTools.exportToCsv'))
         ->toContain('/translations/tools/export-csv');
     expect(route('admin.translations.translationTools.importFromCsv'))
