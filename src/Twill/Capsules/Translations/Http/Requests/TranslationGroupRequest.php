@@ -3,6 +3,7 @@
 namespace BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Http\Requests;
 
 use A17\Twill\Http\Requests\Admin\Request;
+use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\Translation;
 
 class TranslationGroupRequest extends Request
 {
@@ -27,5 +28,27 @@ class TranslationGroupRequest extends Request
         }
 
         return $rules;
+    }
+
+    public function attributes()
+    {
+        $attributes = [];
+
+        $ids = [];
+        foreach ($this->keys() as $key) {
+            if (str_starts_with($key, 'trans_')) {
+                $ids[] = (int) substr($key, 6);
+            }
+        }
+
+        if (! empty($ids)) {
+            Translation::whereIn('id', $ids)->pluck('key', 'id')->each(function ($translationKey, $id) use (&$attributes) {
+                foreach (array_keys($this->input('trans_'.$id, [])) as $locale) {
+                    $attributes["trans_{$id}.{$locale}"] = "{$translationKey} ({$locale})";
+                }
+            });
+        }
+
+        return $attributes;
     }
 }
