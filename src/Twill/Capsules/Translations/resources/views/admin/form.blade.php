@@ -11,7 +11,13 @@
         'name' => 'value',
         'label' => 'Value',
         'translated' => true,
-        'required' => true,
         'type' => 'textarea',
+    ])
+@stop
+
+@section('sideFieldset')
+    @formField('checkbox', [
+        'name' => 'allow_empty',
+        'label' => 'Allow saving empty values',
     ])
 @stop

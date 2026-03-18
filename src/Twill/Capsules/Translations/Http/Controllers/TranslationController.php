@@ -18,6 +18,11 @@ class TranslationController extends ModuleController
             'field' => 'key',
             'sort' => true,
         ],
+        'value' => [
+            'title' => 'Value',
+            'field' => 'value',
+            'html' => true,
+        ],
     ];
 
     protected $defaultOrders = ['key' => 'asc'];

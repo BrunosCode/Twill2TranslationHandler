@@ -13,6 +13,19 @@ class TranslationGroupRequest extends Request
 
     public function rulesForUpdate()
     {
-        return [];
+        if ($this->boolean('allow_empty')) {
+            return [];
+        }
+
+        $rules = [];
+        foreach ($this->keys() as $key) {
+            if (str_starts_with($key, 'trans_') && is_array($this->input($key))) {
+                foreach (array_keys($this->input($key)) as $locale) {
+                    $rules["{$key}.{$locale}"] = 'required|string';
+                }
+            }
+        }
+
+        return $rules;
     }
 }

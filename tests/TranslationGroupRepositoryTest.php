@@ -11,7 +11,7 @@ beforeEach(function () {
     $this->repository = app(TranslationGroupRepository::class);
 });
 
-it('returns repeater data in getFormFields', function () {
+it('returns translation fields in getFormFields', function () {
     $group = TranslationGroup::create(['prefix' => 'menu']);
 
     $t1 = Translation::create(['key' => 'menu.home']);
@@ -23,25 +23,12 @@ it('returns repeater data in getFormFields', function () {
 
     $fields = $this->repository->getFormFields($group);
 
-    expect($fields)->toHaveKey('repeaters')
-        ->and($fields['repeaters'])->toHaveKey('translation_item')
-        ->and($fields['repeaters']['translation_item'])->toHaveCount(2);
+    expect($fields)->toHaveKey('translations')
+        ->and($fields['translations'])->toHaveKey('trans_'.$t1->id)
+        ->and($fields['translations'])->toHaveKey('trans_'.$t2->id);
 });
 
-it('includes translation keys in repeater fields', function () {
-    $group = TranslationGroup::create(['prefix' => 'nav']);
-
-    Translation::create(['key' => 'nav.home']);
-
-    $fields = $this->repository->getFormFields($group);
-    $repeaterFields = $fields['repeaterFields']['translation_item'];
-
-    $keyField = collect($repeaterFields)->first(fn ($f) => str_contains($f['name'], '[key]'));
-
-    expect($keyField['value'])->toBe('nav.home');
-});
-
-it('includes translated values in repeater fields', function () {
+it('includes translated values in form fields', function () {
     $group = TranslationGroup::create(['prefix' => 'nav']);
 
     $t = Translation::create(['key' => 'nav.home']);
@@ -49,11 +36,8 @@ it('includes translated values in repeater fields', function () {
     $t->translations()->create(['locale' => 'it', 'value' => 'Casa', 'active' => true]);
 
     $fields = $this->repository->getFormFields($group);
-    $repeaterFields = $fields['repeaterFields']['translation_item'];
 
-    $valueField = collect($repeaterFields)->first(fn ($f) => str_contains($f['name'], '[value]'));
-
-    expect($valueField['value'])->toBe(['en' => 'Home', 'it' => 'Casa']);
+    expect($fields['translations']['trans_'.$t->id])->toBe(['en' => 'Home', 'it' => 'Casa']);
 });
 
 it('syncs translation values on update', function () {
@@ -66,19 +50,7 @@ it('syncs translation values on update', function () {
     $this->repository->update($group->id, [
         'prefix' => 'sync',
         'published' => true,
-        'languages' => [
-            ['shortlabel' => 'EN', 'label' => 'English', 'value' => 'en', 'published' => true],
-            ['shortlabel' => 'IT', 'label' => 'Italian', 'value' => 'it', 'published' => true],
-        ],
-        'repeaters' => [
-            'translation_item' => [
-                [
-                    'id' => 'translation_item-'.$t->id,
-                    'key' => 'sync.hello',
-                    'value' => ['en' => 'New', 'it' => 'Nuovo'],
-                ],
-            ],
-        ],
+        'trans_'.$t->id => ['en' => 'New', 'it' => 'Nuovo'],
     ]);
 
     $t->refresh();
@@ -88,13 +60,12 @@ it('syncs translation values on update', function () {
         ->and($t->translate('it')->value)->toBe('Nuovo');
 });
 
-it('handles empty repeater gracefully', function () {
+it('handles group with no translations gracefully', function () {
     $group = TranslationGroup::create(['prefix' => 'empty']);
 
     $fields = $this->repository->getFormFields($group);
 
-    expect($fields['repeaters']['translation_item'])->toBeEmpty()
-        ->and($fields['repeaterFields']['translation_item'])->toBeEmpty();
+    expect($fields['translations'] ?? [])->toBeEmpty();
 });
 
 it('returns only existing locale values for partial translations', function () {
@@ -104,10 +75,7 @@ it('returns only existing locale values for partial translations', function () {
     $t->translations()->create(['locale' => 'en', 'value' => 'English only', 'active' => true]);
 
     $fields = $this->repository->getFormFields($group);
-    $repeaterFields = $fields['repeaterFields']['translation_item'];
 
-    $valueField = collect($repeaterFields)->first(fn ($f) => str_contains($f['name'], '[value]'));
-
-    expect($valueField['value']['en'])->toBe('English only')
-        ->and($valueField['value'])->not->toHaveKey('it');
+    expect($fields['translations']['trans_'.$t->id]['en'])->toBe('English only')
+        ->and($fields['translations']['trans_'.$t->id])->not->toHaveKey('it');
 });

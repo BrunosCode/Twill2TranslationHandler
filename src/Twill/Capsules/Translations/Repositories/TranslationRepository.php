@@ -33,6 +33,13 @@ class TranslationRepository extends ModuleRepository
         return parent::filter($query, $scopes);
     }
 
+    public function update($id, $fields)
+    {
+        unset($fields['allow_empty']);
+
+        return parent::update($id, $fields);
+    }
+
     public function afterSave($object, $fields)
     {
         try {

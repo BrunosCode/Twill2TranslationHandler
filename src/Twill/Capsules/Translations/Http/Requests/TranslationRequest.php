@@ -15,8 +15,10 @@ class TranslationRequest extends Request
 
     public function rulesForUpdate()
     {
+        $valueRule = $this->boolean('allow_empty') ? 'nullable|string' : 'required|string';
+
         return $this->rulesForTranslatedFields([], [
-            'value' => 'required|string',
+            'value' => $valueRule,
         ]);
     }
 }

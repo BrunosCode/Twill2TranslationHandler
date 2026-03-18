@@ -39,7 +39,6 @@ class TranslationsCapsuleServiceProvider extends TwillPackageServiceProvider
             false
         );
 
-        $this->registerRepeatersDirectory($capsulePath.'/resources/views/admin/repeaters');
         $this->registerNavigation();
     }
 
@@ -52,7 +51,7 @@ class TranslationsCapsuleServiceProvider extends TwillPackageServiceProvider
             'route' => 'admin.translations.translations.index',
             'primary_navigation' => [
                 'translations' => [
-                    'title' => 'Keys',
+                    'title' => 'Translations',
                     'route' => 'admin.translations.translations.index',
                 ],
                 'translationGroups' => [

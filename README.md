@@ -55,42 +55,25 @@ php artisan vendor:publish --tag="twill-translation-handler-views"
 
 The package registers a **Translations** entry in the Twill admin sidebar automatically — no extra configuration needed. It provides three sub-pages:
 
-- **Keys** — browse and edit individual translation keys
+- **Translations** — browse and edit individual translation keys
 - **Groups** — edit translations grouped by prefix
-- **Import / Export** — sync with PHP files or CSV
+- **Import / Export** — sync translations via CSV
 
 ### Controlling the position in the sidebar
 
-Twill orders navigation items based on the `config/twill-navigation.php` file. To place the Translations entry at a specific position, add it explicitly in your app's navigation config:
+The package always overwrites the `translations` key in `twill-navigation` at boot with its own structure. To control where it appears in the sidebar, add an empty placeholder for `translations` in your app's navigation config — PHP arrays preserve the insertion order of existing keys:
 
 ```php
 // config/twill-navigation.php
 
 return [
     'dashboard' => [
-        'title'   => 'Dashboard',
-        'route'   => 'admin.dashboard',
+        'title' => 'Dashboard',
+        'route' => 'admin.dashboard',
     ],
 
-    // Add this block wherever you want it to appear
-    'translations' => [
-        'title' => 'Translations',
-        'route' => 'admin.translations.translations.index',
-        'primary_navigation' => [
-            'translations' => [
-                'title' => 'Keys',
-                'route' => 'admin.translations.translations.index',
-            ],
-            'translationGroups' => [
-                'title' => 'Groups',
-                'route' => 'admin.translations.translationGroups.index',
-            ],
-            'translationTools' => [
-                'title' => 'Import / Export',
-                'route' => 'admin.translations.translationTools.index',
-            ],
-        ],
-    ],
+    // Placeholder — position is preserved, structure is filled in by the package
+    'translations' => [],
 
     'pages' => [
         'title' => 'Pages',
@@ -100,8 +83,6 @@ return [
     // ...
 ];
 ```
-
-The package always fills in the navigation structure for the `translations` key at boot. Defining the key in your config ahead of time only controls its **position** in the sidebar — PHP arrays preserve the insertion order of existing keys when they are updated.
 
 ## Configuration
 
