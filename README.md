@@ -22,10 +22,10 @@ A [Twill CMS](https://twillcms.com) capsule for managing Laravel translations di
 
 ## Requirements
 
-- PHP 8.1+
-- Laravel 10+
-- Twill 2.x
-- [brunoscode/laravel-translation-handler](https://github.com/BrunosCode/LaravelTranslationHandler)
+- PHP 8.2 or 8.3
+- Laravel 10 or 11
+- Twill 2.x (Twill 3 support planned for a future release)
+- [brunoscode/laravel-translation-handler](https://github.com/BrunosCode/LaravelTranslationHandler) ^1.0
 
 ## Installation
 
@@ -152,17 +152,17 @@ A typical deploy script:
 php artisan migrate
 
 # Add new keys and locales from PHP files to the DB, without overwriting existing DB values
-php artisan translation-handler:import --from=php --to=db
+php artisan translation-handler php db
 
 # Overwrite PHP files with the authoritative DB values
-php artisan translation-handler:export --from=db --to=php --force
+php artisan translation-handler db php --force
 ```
 
-The import step (without `--force`) calls `addTranslations` under the hood: it inserts keys and locale entries that do not exist yet in the DB and leaves everything else untouched. The subsequent export rewrites the PHP files so they always reflect the DB state.
+The first command (without `--force`) inserts only keys and locale entries that do not yet exist in the DB — existing values are left untouched. The second command rewrites the PHP files so they always reflect the DB state.
 
-> **First deploy / fresh environment:** if the DB is empty, run the import with `--force` so the PHP file values are used as the initial seed:
+> **First deploy / fresh environment:** if the DB is empty, seed it from the PHP files:
 > ```bash
-> php artisan translation-handler:import --from=php --to=db --force
+> php artisan translation-handler php db --force
 > ```
 
 ## Syncing translations from production
@@ -174,7 +174,7 @@ When content editors have updated translations directly in production or staging
 2. **Copy the file** into your project (e.g. `storage/lang/translations.csv`) and import it to regenerate the PHP files:
 
 ```bash
-php artisan translation-handler:import --from=csv --to=php --force
+php artisan translation-handler csv php --force
 ```
 
 3. **Commit the updated PHP files** and push:
@@ -185,7 +185,7 @@ git commit -m "chore: sync translations from production"
 git push
 ```
 
-The next deploy will import the updated PHP files into the database on all other environments.
+The next deploy will import the updated PHP files into any environment whose DB does not yet have those values.
 
 ## Database Structure
 
