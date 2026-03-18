@@ -22,6 +22,8 @@ class TranslationController extends ModuleController
 
     protected $defaultOrders = ['key' => 'asc'];
 
+    protected $defaultFilters = ['search' => 'search'];
+
     protected $disableEditor = true;
 
     protected $indexOptions = [

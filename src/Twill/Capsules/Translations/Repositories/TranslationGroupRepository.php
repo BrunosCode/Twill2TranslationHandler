@@ -6,6 +6,7 @@ use A17\Twill\Repositories\Behaviors\HandleRepeaters;
 use A17\Twill\Repositories\ModuleRepository;
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\Translation;
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
+use Illuminate\Support\Facades\DB;
 
 class TranslationGroupRepository extends ModuleRepository
 {
@@ -14,6 +15,39 @@ class TranslationGroupRepository extends ModuleRepository
     public function __construct(TranslationGroup $model)
     {
         $this->model = $model;
+    }
+
+    public function filter($query, array $scopes = [])
+    {
+        if (! empty($scopes['search'])) {
+            $search = $scopes['search'];
+            $delimiter = config('translation-handler.keyDelimiter', '.');
+            $driver = DB::connection()->getDriverName();
+
+            $concatKeyExpr = $driver === 'sqlite'
+                ? "translation_keys.key LIKE (translation_groups.prefix || ? || '%')"
+                : "translation_keys.key LIKE CONCAT(translation_groups.prefix, ?, '%')";
+
+            $query->where(function ($q) use ($search, $delimiter, $concatKeyExpr) {
+                $q->where('prefix', 'like', "%{$search}%")
+                    ->orWhereExists(function ($sub) use ($search, $delimiter, $concatKeyExpr) {
+                        $sub->select(DB::raw(1))
+                            ->from('translation_keys')
+                            ->whereRaw($concatKeyExpr, [$delimiter])
+                            ->where('translation_keys.key', 'like', "%{$search}%");
+                    })
+                    ->orWhereExists(function ($sub) use ($search, $delimiter, $concatKeyExpr) {
+                        $sub->select(DB::raw(1))
+                            ->from('translation_values')
+                            ->join('translation_keys', 'translation_keys.id', '=', 'translation_values.translation_key_id')
+                            ->whereRaw($concatKeyExpr, [$delimiter])
+                            ->where('translation_values.value', 'like', "%{$search}%");
+                    });
+            });
+            unset($scopes['search']);
+        }
+
+        return parent::filter($query, $scopes);
     }
 
     public function getFormFields($object)

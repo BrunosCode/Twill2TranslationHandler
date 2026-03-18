@@ -53,6 +53,8 @@ class TranslationGroupController extends ModuleController
 
     protected $defaultOrders = ['prefix' => 'asc'];
 
+    protected $defaultFilters = ['search' => 'search'];
+
     protected $indexOptions = [
         'create' => false,
         'publish' => false,
