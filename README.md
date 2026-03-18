@@ -142,6 +142,51 @@ Per-group CSV export is also available directly from each group's edit page.
 
 > PHP language files are kept in sync automatically: every import (CSV via the tools page or per-group) writes the affected PHP files immediately after updating the database. Saving a single key or group from the edit form also triggers the same export.
 
+## Deployment
+
+The **database is the source of truth** for translation values. PHP language files are used only to carry new keys and new locales between environments.
+
+A typical deploy script:
+
+```bash
+php artisan migrate
+
+# Add new keys and locales from PHP files to the DB, without overwriting existing DB values
+php artisan translation-handler:import --from=php --to=db
+
+# Overwrite PHP files with the authoritative DB values
+php artisan translation-handler:export --from=db --to=php --force
+```
+
+The import step (without `--force`) calls `addTranslations` under the hood: it inserts keys and locale entries that do not exist yet in the DB and leaves everything else untouched. The subsequent export rewrites the PHP files so they always reflect the DB state.
+
+> **First deploy / fresh environment:** if the DB is empty, run the import with `--force` so the PHP file values are used as the initial seed:
+> ```bash
+> php artisan translation-handler:import --from=php --to=db --force
+> ```
+
+## Syncing translations from production
+
+When content editors have updated translations directly in production or staging, you can pull those changes back into the repository:
+
+1. **Download the CSV** from the production admin panel via _Translations → Import / Export → Export to CSV_.
+
+2. **Copy the file** into your project (e.g. `storage/lang/translations.csv`) and import it to regenerate the PHP files:
+
+```bash
+php artisan translation-handler:import --from=csv --to=php --force
+```
+
+3. **Commit the updated PHP files** and push:
+
+```bash
+git add lang/
+git commit -m "chore: sync translations from production"
+git push
+```
+
+The next deploy will import the updated PHP files into the database on all other environments.
+
 ## Database Structure
 
 | Table | Description |
