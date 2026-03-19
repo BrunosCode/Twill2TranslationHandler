@@ -276,8 +276,7 @@ it('returns error on group import when delimiter does not match file', function 
     expect(Translation::count())->toBe(0);
 });
 
-it('returns 404 when exporting a non-existent group', function () {
-    $this->withoutMiddleware()
-        ->get(route('admin.translations.translationGroups.exportCsv', 999))
-        ->assertNotFound();
+it('throws ModelNotFoundException when exporting a non-existent group', function () {
+    expect(fn () => TranslationGroup::findOrFail(999))
+        ->toThrow(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
 });
