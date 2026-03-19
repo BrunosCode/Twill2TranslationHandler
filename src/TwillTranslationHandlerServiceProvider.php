@@ -35,7 +35,7 @@ class TwillTranslationHandlerServiceProvider extends PackageServiceProvider
                 'twill_auth:twill_users',
             ],
             'prefix' => config('twill.admin_app_path', ''),
-            'as' => 'admin.',
+            'as' => config('twill.admin_route_name_prefix', 'admin.'),
         ];
 
         if ($domain = config('twill.admin_app_url')) {

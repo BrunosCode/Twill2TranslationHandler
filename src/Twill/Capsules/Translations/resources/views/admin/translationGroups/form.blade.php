@@ -24,7 +24,7 @@
     ])
 
     <div style="margin-top:24px;">
-        <a class="button button--action" href="{{ route('admin.translations.translationGroups.exportCsv', $item->id) }}">
+        <a class="button button--action" href="{{ route(config('twill.admin_route_name_prefix', 'admin.').'translations.translationGroups.exportCsv', $item->id) }}">
             Download CSV
         </a>
     </div>

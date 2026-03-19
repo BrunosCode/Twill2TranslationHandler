@@ -3,6 +3,7 @@
 namespace BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Http\Controllers;
 
 use A17\Twill\Http\Controllers\Admin\ModuleController;
+use A17\Twill\Models\Contracts\TwillModelContract;
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
 use Illuminate\Support\Collection;
 
@@ -65,7 +66,7 @@ class TranslationGroupController extends ModuleController
         'bulkDelete' => false,
     ];
 
-    protected function indexItemData($item)
+    protected function indexItemData(TwillModelContract $item): array
     {
         /** @var TranslationGroup $item */
         return [

@@ -6,7 +6,7 @@
 
 A [Twill CMS](https://twillcms.com) capsule for managing Laravel translations directly from the admin panel. Built on top of [LaravelTranslationHandler](https://github.com/BrunosCode/LaravelTranslationHandler).
 
-> **Twill compatibility:** Currently supports **Twill 2**. Support for Twill 3 is planned for a future release.
+> **Twill compatibility:** Currently supports **Twill 3** (Laravel 11, PHP 8.2+). Twill 2 support is available in the `v0.x` releases.
 
 ## Features
 
@@ -23,9 +23,9 @@ A [Twill CMS](https://twillcms.com) capsule for managing Laravel translations di
 ## Requirements
 
 - PHP 8.2 or 8.3
-- Laravel 10
-- Twill 2.x (Twill 3 and Laravel 11 support planned for a future release)
-- [brunoscode/laravel-translation-handler](https://github.com/BrunosCode/LaravelTranslationHandler) ^1.0
+- Laravel 11
+- Twill 3.x
+- [brunoscode/laravel-translation-handler](https://github.com/BrunosCode/LaravelTranslationHandler) ^2.0
 
 ## Installation
 
