@@ -44,6 +44,7 @@ class TranslationRepository extends ModuleRepository
 
     public function afterSave(TwillModelContract $object, array $fields): void
     {
+        /** @var Translation $object */
         try {
             $delimiter = config('translation-handler.keyDelimiter', '.');
             $prefix = explode($delimiter, $object->key)[0];

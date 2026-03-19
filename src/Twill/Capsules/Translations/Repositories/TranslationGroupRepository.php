@@ -8,6 +8,7 @@ use BrunosCode\TranslationHandler\Data\TranslationOptions;
 use BrunosCode\TranslationHandler\Facades\TranslationHandler;
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\Translation;
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
+use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\TranslationTranslation;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
@@ -53,9 +54,11 @@ class TranslationGroupRepository extends ModuleRepository
 
     public function getFormFields(TwillModelContract $object): array
     {
+        /** @var TranslationGroup $object */
         $fields = parent::getFormFields($object);
 
         foreach ($object->translation_items as $translation) {
+            /** @var TranslationTranslation $tv */
             foreach ($translation->translations as $tv) {
                 $fields['translations']['trans_'.$translation->id][$tv->locale] = $tv->value ?? '';
             }
