@@ -2,11 +2,13 @@
 
 namespace BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Repositories;
 
+use A17\Twill\Models\Contracts\TwillModelContract;
 use A17\Twill\Repositories\Behaviors\HandleTranslations;
 use A17\Twill\Repositories\ModuleRepository;
 use BrunosCode\TranslationHandler\Data\TranslationOptions;
 use BrunosCode\TranslationHandler\Facades\TranslationHandler;
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\Translation;
+use Illuminate\Database\Eloquent\Builder;
 
 class TranslationRepository extends ModuleRepository
 {
@@ -17,7 +19,7 @@ class TranslationRepository extends ModuleRepository
         $this->model = $model;
     }
 
-    public function filter($query, array $scopes = [])
+    public function filter(Builder $query, array $scopes = []): Builder
     {
         if (! empty($scopes['search'])) {
             $search = $scopes['search'];
@@ -33,14 +35,14 @@ class TranslationRepository extends ModuleRepository
         return parent::filter($query, $scopes);
     }
 
-    public function update($id, $fields)
+    public function update(int|string $id, array $fields): TwillModelContract
     {
         unset($fields['allow_empty']);
 
         return parent::update($id, $fields);
     }
 
-    public function afterSave($object, $fields)
+    public function afterSave(TwillModelContract $object, array $fields): void
     {
         try {
             $delimiter = config('translation-handler.keyDelimiter', '.');

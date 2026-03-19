@@ -27,7 +27,7 @@
             <div>
                 <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 16px;">Import CSV</h3>
 
-                <form method="POST" action="{{ route('admin.translations.translationTools.importFromCsv') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route(config('twill.admin_route_name_prefix', 'admin.').'translations.translationTools.importFromCsv') }}" enctype="multipart/form-data">
                     @csrf
                     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
                         <input type="file" name="csv_file" accept=".csv" required
@@ -56,7 +56,7 @@
             <div>
                 <h3 style="font-size: 15px; font-weight: 600; margin-bottom: 16px;">Export CSV</h3>
 
-                <form method="POST" action="{{ route('admin.translations.translationTools.exportToCsv') }}">
+                <form method="POST" action="{{ route(config('twill.admin_route_name_prefix', 'admin.').'translations.translationTools.exportToCsv') }}">
                     @csrf
                     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
                         <select name="csv_delimiter" style="font-size: 13px; padding: 6px; border: 1px solid #e2e8f0; border-radius: 4px;">

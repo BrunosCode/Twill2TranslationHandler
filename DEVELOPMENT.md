@@ -2,7 +2,9 @@
 
 ## Requirements
 
-- PHP 8.1+
+- PHP 8.2+
+- Laravel 11
+- Twill 3.x
 - Composer
 - Node.js (for Twill asset build)
 
@@ -15,8 +17,6 @@ composer install
 # Build the workbench environment (creates SQLite DB, runs migrations, seeds)
 composer build
 ```
-
-> **Note:** `translation-handler:install` is NOT required for development. Our capsule migrations are self-contained: they CREATE the base tables if they don't exist, or ALTER them if they were already created by the base package.
 
 ## Running the dev server
 
@@ -41,13 +41,6 @@ rm -f vendor/orchestra/testbench-core/laravel/database/database.sqlite
 composer build
 ```
 
-Our capsule migrations are self-contained (CREATE-or-ALTER pattern), so `composer build` always works from a clean state without any additional setup.
-
-> **Note:** If you previously ran `translation-handler:install`, published migrations may exist in `vendor/orchestra/testbench-core/laravel/database/migrations/`. These can conflict with tests. Remove them with:
-> ```bash
-> rm -f vendor/orchestra/testbench-core/laravel/database/migrations/*translation*
-> ```
-
 ## Common commands
 
 ### Tests
@@ -66,7 +59,7 @@ vendor/bin/pest tests/TranslationModelTest.php
 vendor/bin/pest --filter="can create a translation key"
 ```
 
-> **Note:** Tests use an in-memory SQLite database with inline table definitions in `tests/TestCase.php`. They do not depend on published migrations.
+> **Note:** Tests use an in-memory SQLite database with inline table definitions in `tests/TestCase.php`. They do not depend on published migrations or Twill's own migration files.
 
 ### Code style (Pint)
 
@@ -110,17 +103,24 @@ php vendor/bin/testbench db:seed --class="Workbench\\Database\\Seeders\\Database
 ### Translation Handler commands
 
 ```bash
-# Import translations (PHP files -> DB)
-php vendor/bin/testbench translation-handler:import
+# Import translations from PHP files into the DB
+php vendor/bin/testbench translation-handler:import --from=php --to=db
 
-# Export translations (DB -> PHP files)
-php vendor/bin/testbench translation-handler:export
+# Import with force (overwrites existing DB values)
+php vendor/bin/testbench translation-handler:import --from=php --to=db --force
+
+# Export DB translations to PHP files
+php vendor/bin/testbench translation-handler:export --from=db --to=php
+
+# Import from CSV into DB and PHP files
+php vendor/bin/testbench translation-handler:import --from=csv --to=db
+php vendor/bin/testbench translation-handler:export --from=db --to=php
 
 # Get a single translation
-php vendor/bin/testbench translation-handler:get db test.key en
+php vendor/bin/testbench translation-handler:get --from=db test.key en
 
 # Set a single translation
-php vendor/bin/testbench translation-handler:set db test.key en "value"
+php vendor/bin/testbench translation-handler:set --to=db test.key en "value"
 ```
 
 ## Project structure
@@ -145,14 +145,13 @@ src/
     │   └── TranslationGroupRequest.php
     ├── Repositories/
     │   ├── TranslationRepository.php
-    │   └── TranslationGroupRepository.php  # Repeater data <-> translation_values
+    │   └── TranslationGroupRepository.php  # Inline textarea fields <-> translation_values
     ├── database/migrations/                # ALTER TABLE + CREATE translation_groups
     ├── resources/views/admin/
-    │   ├── form.blade.php                  # Translation edit form
-    │   ├── create.blade.php                # Translation create modal
-    │   ├── groupForm.blade.php             # Group edit form (with repeater)
-    │   └── repeaters/
-    │       └── translation_item.blade.php  # Repeater item (key + translated value)
+    │   ├── translations/
+    │   │   └── form.blade.php              # Translation edit form (translated input per locale)
+    │   └── translationGroups/
+    │       └── form.blade.php              # Group edit form (inline textareas, no repeaters)
     └── routes/admin.php                    # translations + translationGroups modules
 
 config/
@@ -186,6 +185,12 @@ Our capsule migrations add two columns required by Twill:
 
 These migrations include `hasTable`/`hasColumn` guards so they are safe to run in any order.
 
+## Route name prefix
+
+Twill 3 uses `twill.` as the default route name prefix (configurable via `twill.admin_route_name_prefix`). This package reads that config value everywhere it references routes, so it works with both `admin.` (Twill 2 style) and `twill.` (Twill 3 default).
+
+In the workbench dev environment, `config/twill.php` sets the prefix. Tests override it to `admin.`.
+
 ## Adding a new module inside the Translations capsule
 
 1. Create Model, Controller, Request, Repository under the existing `src/Twill/Capsules/Translations/` directories.
@@ -208,16 +213,4 @@ composer update
 
 # Update a specific package
 composer update brunoscode/laravel-translation-handler
-
-# Update to a new tagged version (edit composer.json first)
-# "brunoscode/laravel-translation-handler": "^0.1.7"
-composer update brunoscode/laravel-translation-handler
-```
-
-## Tests and published migrations
-
-When running `translation-handler:install`, migrations get published to `vendor/orchestra/testbench-core/laravel/database/migrations/`. These can conflict with the inline table definitions in `tests/TestCase.php`. If tests fail with "table already exists", remove the published migration files:
-
-```bash
-rm -f vendor/orchestra/testbench-core/laravel/database/migrations/*translation*
 ```

@@ -2,11 +2,13 @@
 
 namespace BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Repositories;
 
+use A17\Twill\Models\Contracts\TwillModelContract;
 use A17\Twill\Repositories\ModuleRepository;
 use BrunosCode\TranslationHandler\Data\TranslationOptions;
 use BrunosCode\TranslationHandler\Facades\TranslationHandler;
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\Translation;
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
 class TranslationGroupRepository extends ModuleRepository
@@ -16,7 +18,7 @@ class TranslationGroupRepository extends ModuleRepository
         $this->model = $model;
     }
 
-    public function filter($query, array $scopes = [])
+    public function filter(Builder $query, array $scopes = []): Builder
     {
         if (! empty($scopes['search'])) {
             $search = $scopes['search'];
@@ -49,7 +51,7 @@ class TranslationGroupRepository extends ModuleRepository
         return parent::filter($query, $scopes);
     }
 
-    public function getFormFields($object)
+    public function getFormFields(TwillModelContract $object): array
     {
         $fields = parent::getFormFields($object);
 
@@ -62,7 +64,7 @@ class TranslationGroupRepository extends ModuleRepository
         return $fields;
     }
 
-    public function update($id, $fields)
+    public function update(int|string $id, array $fields): TwillModelContract
     {
         unset($fields['allow_empty']);
 

@@ -59,14 +59,19 @@ class TestCase extends Orchestra
         $app['config']->set('translatable.locales', ['en', 'it']);
         $app['config']->set('twill.admin_app_url', '');
         $app['config']->set('twill.admin_app_path', 'admin');
+        $app['config']->set('twill.admin_route_name_prefix', 'admin.');
     }
 
     protected function defineDatabaseMigrations()
     {
-        // Twill core tables
-        $this->loadMigrationsFrom(
-            __DIR__.'/../vendor/area17/twill/migrations/default'
-        );
+        // Enable FK enforcement on SQLite so ON DELETE CASCADE works in tests.
+        $this->app['db']->connection()->statement('PRAGMA foreign_keys = ON');
+
+        // We only create the tables needed by this package's tests.
+        // Twill's own tables (users, password_resets, etc.) are not required because
+        // we are not testing Twill's authentication or admin functionality here.
+        // The problematic cascade migration in Twill's default migrations also fails
+        // on SQLite in Laravel 11, so we avoid loading Twill's migrations entirely.
 
         // Translation tables (complete with Twill columns)
         Schema::create('translation_keys', function ($table) {

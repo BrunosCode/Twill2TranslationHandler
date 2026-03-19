@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C /Users/edoardomagnani/Code/mine/TwillTranslationHandler log --oneline)",
+      "Bash(composer require:*)",
+      "Bash(composer update:*)"
+    ]
+  }
+}

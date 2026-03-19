@@ -44,23 +44,24 @@ class TranslationsCapsuleServiceProvider extends TwillPackageServiceProvider
 
     protected function registerNavigation(): void
     {
+        $prefix = config('twill.admin_route_name_prefix', 'admin.');
         $config = Config::get('twill-navigation', []);
 
         $config['translations'] = [
             'title' => 'Translations',
-            'route' => 'admin.translations.translations.index',
+            'route' => $prefix.'translations.translations.index',
             'primary_navigation' => [
                 'translations' => [
                     'title' => 'Translations',
-                    'route' => 'admin.translations.translations.index',
+                    'route' => $prefix.'translations.translations.index',
                 ],
                 'translationGroups' => [
                     'title' => 'Groups',
-                    'route' => 'admin.translations.translationGroups.index',
+                    'route' => $prefix.'translations.translationGroups.index',
                 ],
                 'translationTools' => [
                     'title' => 'Import / Export',
-                    'route' => 'admin.translations.translationTools.index',
+                    'route' => $prefix.'translations.translationTools.index',
                 ],
             ],
         ];

@@ -121,7 +121,8 @@ class TranslationToolsController extends Controller
 
             $request->file('csv_file')->move($csvPath, $csvFileName);
 
-            TranslationHandler::setOption('fileNames', [$group->prefix])
+            TranslationHandler::setOption('csvDelimiter', $request->input('csv_delimiter', config('translation-handler.csvDelimiter', ';')))
+                ->setOption('fileNames', [$group->prefix])
                 ->import(TranslationOptions::CSV, TranslationOptions::DB, true);
 
             File::delete($csvPath.DIRECTORY_SEPARATOR.$csvFileName);
