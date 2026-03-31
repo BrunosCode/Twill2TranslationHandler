@@ -2,6 +2,26 @@
 
 All notable changes to `TwillTranslationHandler` will be documented in this file.
 
+## v2.0.1 - 2026-03-31
+
+### Bug fixes
+
+- **`CannotCombineNavigationBuilderWithLegacyConfig` exception on install.** Apps using the `TwillNavigation` builder API would crash at boot because the package unconditionally registered the Translations entries via the legacy `twill-navigation` config array. Both APIs cannot coexist in Twill 3.
+
+### New config flag: `legacy-twill-navigation`
+
+```php
+// config/translation-handler.php
+'legacy-twill-navigation' => true, // default — behaviour unchanged from v2.0
+
+```
+Set to `false` if your app uses the `TwillNavigation` builder and register the navigation entries yourself. See the [Navigation](README.md#navigation) section in the README for both approaches.
+
+### Other changes
+
+- Package migrations are now auto-loaded via `loadMigrationsFrom()` — no manual step required after `composer require`.
+- Tests added for both flag states (`legacy-twill-navigation = true/false`), verifying that the `twill-navigation` config is populated or left untouched accordingly, and that routes remain registered in both cases.
+
 ## v2.0.0 — Twill 3 + Laravel 11 - 2026-03-19
 
 > **Twill 2 / Laravel 10 users:** stay on the [`v1.x`](https://github.com/brunoscode/twill-translation-handler/tree/v1.x) releases.
@@ -42,6 +62,7 @@ Added `TranslationToolsControllerTest` with 14 cases covering:
 ```bash
 composer require brunoscode/twill-translation-handler:^2.0 area17/twill:^3.0 laravel/framework:^11.0
 php artisan migrate
+
 
 ```
 ## v1.0.0 - 2026-03-18
