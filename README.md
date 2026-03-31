@@ -53,15 +53,57 @@ php artisan vendor:publish --tag="twill-translation-handler-views"
 
 ## Navigation
 
-The package registers a **Translations** entry in the Twill admin sidebar automatically — no extra configuration needed. It provides three sub-pages:
+The package provides three sub-pages:
 
 - **Translations** — browse and edit individual translation keys
 - **Groups** — edit translations grouped by prefix
 - **Import / Export** — sync translations via CSV
 
-### Controlling the position in the sidebar
+### TwillNavigation builder
 
-The package always overwrites the `translations` key in `twill-navigation` at boot with its own structure. To control where it appears in the sidebar, add an empty placeholder for `translations` in your app's navigation config — PHP arrays preserve the insertion order of existing keys:
+If your app uses the newer `TwillNavigation` builder API, disable the automatic registration in `config/translation-handler.php`:
+
+```php
+'legacy-twill-navigation' => false,
+```
+
+Then register the entries in your `AppServiceProvider` (or wherever you build your Twill navigation):
+
+```php
+use A17\Twill\Facades\TwillNavigation;
+use A17\Twill\View\Components\Navigation\NavigationLink;
+
+TwillNavigation::addLink(
+    NavigationLink::make()->title('Translations')
+        ->forModule('translations')
+        ->doNotAddSelfAsFirstChild()
+        ->addLink(NavigationLink::make()->title('Translations')->forModule('translations'))
+        ->addLink(NavigationLink::make()->title('Groups')->forModule('translationGroups'))
+        ->addLink(NavigationLink::make()->title('Import / Export')->forModule('translationTools'))
+);
+```
+
+If you have a custom `admin_route_name_prefix`, use explicit route names instead:
+
+```php
+use A17\Twill\Facades\TwillNavigation;
+use A17\Twill\View\Components\Navigation\NavigationLink;
+
+$prefix = config('twill.admin_route_name_prefix', 'twill.');
+
+TwillNavigation::addLink(
+    NavigationLink::make()->title('Translations')
+        ->route($prefix . 'translations.translations.index')
+        ->doNotAddSelfAsFirstChild()
+        ->addLink(NavigationLink::make()->title('Translations')->route($prefix . 'translations.translations.index'))
+        ->addLink(NavigationLink::make()->title('Groups')->route($prefix . 'translations.translationGroups.index'))
+        ->addLink(NavigationLink::make()->title('Import / Export')->route($prefix . 'translations.translationTools.index'))
+);
+```
+
+### Legacy twill-navigation config array
+
+By default the package registers the navigation automatically via the legacy `twill-navigation` config array. The package will merge the `translations` key into the array at boot. To control where it appears in the sidebar, add an empty placeholder in the right position — PHP arrays preserve the insertion order of existing keys:
 
 ```php
 // config/twill-navigation.php
@@ -79,8 +121,6 @@ return [
         'title' => 'Pages',
         'route' => 'admin.pages.index',
     ],
-
-    // ...
 ];
 ```
 

@@ -21,6 +21,10 @@ class TwillTranslationHandlerServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        $this->loadMigrationsFrom(
+            __DIR__.'/Twill/Capsules/Translations/database/migrations'
+        );
+
         $this->registerAdminRoutes();
     }
 

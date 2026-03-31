@@ -39,7 +39,9 @@ class TranslationsCapsuleServiceProvider extends TwillPackageServiceProvider
             false
         );
 
-        $this->registerNavigation();
+        if (config('translation-handler.legacy-twill-navigation', true)) {
+            $this->registerNavigation();
+        }
     }
 
     protected function registerNavigation(): void

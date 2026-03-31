@@ -9,6 +9,16 @@ use BrunosCode\TwillTranslationHandler\DatabaseHandler;
 // config for BrunosCode/TranslationHandler
 
 return [
+    /*
+    |--------------------------------------------------------------------------
+    | Legacy Twill navigation
+    |--------------------------------------------------------------------------
+    | Set to true to auto-register the Translations entries via the legacy
+    | twill-navigation config array. Leave false if your app uses the
+    | TwillNavigation builder API and you register the entries yourself.
+    */
+    'legacy-twill-navigation' => true,
+
     'keyDelimiter' => '.',
 
     'fileNames' => ['test'],
