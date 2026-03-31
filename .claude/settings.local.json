@@ -3,7 +3,10 @@
     "allow": [
       "Bash(git -C /Users/edoardomagnani/Code/mine/TwillTranslationHandler log --oneline)",
       "Bash(composer require:*)",
-      "Bash(composer update:*)"
+      "Bash(composer update:*)",
+      "Bash(vendor/bin/pest tests/NavigationFlagTest.php --colors=always)",
+      "Bash(vendor/bin/pest tests/NavigationLegacyEnabledTest.php tests/NavigationLegacyDisabledTest.php --colors=always)",
+      "Bash(vendor/bin/pest --colors=always)"
     ]
   }
 }

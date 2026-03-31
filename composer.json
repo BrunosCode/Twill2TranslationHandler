@@ -58,7 +58,7 @@
         "build": [
             "[ ! -L ./testbench-core ] || rm ./testbench-core",
             "@php vendor/bin/testbench workbench:build --ansi",
-            "export NODE_OPTIONS=--openssl-legacy-provider && php vendor/bin/testbench twill:build",
+            "export NODE_OPTIONS=--openssl-legacy-provider && echo 'yes' | php vendor/bin/testbench twill:build",
             "ln -s ./vendor/orchestra/testbench-core/laravel ./testbench-core"
         ],
         "start": [
