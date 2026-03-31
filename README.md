@@ -77,28 +77,19 @@ TwillNavigation::addLink(
     NavigationLink::make()->title('Translations')
         ->forModule('translations')
         ->doNotAddSelfAsFirstChild()
-        ->addLink(NavigationLink::make()->title('Translations')->forModule('translations'))
-        ->addLink(NavigationLink::make()->title('Groups')->forModule('translationGroups'))
-        ->addLink(NavigationLink::make()->title('Import / Export')->forModule('translationTools'))
+        ->setChildren([
+            NavigationLink::make()->title('Translations')->forModule('translations'),
+            NavigationLink::make()->title('Groups')->forModule('translationGroups'),
+            NavigationLink::make()->title('Import / Export')->forRoute('twill.translations.translationTools.index'),
+        ])
 );
 ```
 
-If you have a custom `admin_route_name_prefix`, use explicit route names instead:
+If you have a custom `admin_route_name_prefix`, replace `twill.` accordingly:
 
 ```php
-use A17\Twill\Facades\TwillNavigation;
-use A17\Twill\View\Components\Navigation\NavigationLink;
-
-$prefix = config('twill.admin_route_name_prefix', 'twill.');
-
-TwillNavigation::addLink(
-    NavigationLink::make()->title('Translations')
-        ->route($prefix . 'translations.translations.index')
-        ->doNotAddSelfAsFirstChild()
-        ->addLink(NavigationLink::make()->title('Translations')->route($prefix . 'translations.translations.index'))
-        ->addLink(NavigationLink::make()->title('Groups')->route($prefix . 'translations.translationGroups.index'))
-        ->addLink(NavigationLink::make()->title('Import / Export')->route($prefix . 'translations.translationTools.index'))
-);
+NavigationLink::make()->title('Import / Export')
+    ->forRoute(config('twill.admin_route_name_prefix', 'twill.') . 'translations.translationTools.index'),
 ```
 
 ### Legacy twill-navigation config array
