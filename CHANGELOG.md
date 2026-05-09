@@ -2,6 +2,22 @@
 
 All notable changes to `TwillTranslationHandler` will be documented in this file.
 
+## v2.0.2 - 2026-05-09
+
+### Bug fixes
+
+- **Null values persisted to `translation_values.value` when an editor cleared a field.**
+  Clearing a locale value in the Keys or Groups form could send `null` to the repository,
+  which was stored as-is in the database instead of an empty string.
+  Both `TranslationRepository` and `TranslationGroupRepository` now normalise any `null`
+  field value to `''` before persisting.
+
+### Documentation
+
+- Added **Editorial interface** section to the README covering the Keys and Groups edit
+  forms (fields, read-only behaviour, auto-sync on save), the `allow_empty` checkbox and
+  its effect on validation in each module, and the null-to-empty-string normalisation rule.
+
 ## v2.0.1 - 2026-03-31
 
 ### Bug fixes
@@ -13,6 +29,7 @@ All notable changes to `TwillTranslationHandler` will be documented in this file
 ```php
 // config/translation-handler.php
 'legacy-twill-navigation' => true, // default — behaviour unchanged from v2.0
+
 
 ```
 Set to `false` if your app uses the `TwillNavigation` builder and register the navigation entries yourself. See the [Navigation](README.md#navigation) section in the README for both approaches.
@@ -62,6 +79,7 @@ Added `TranslationToolsControllerTest` with 14 cases covering:
 ```bash
 composer require brunoscode/twill-translation-handler:^2.0 area17/twill:^3.0 laravel/framework:^11.0
 php artisan migrate
+
 
 
 ```
