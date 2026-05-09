@@ -4,7 +4,6 @@ use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\Transl
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\TranslationTranslation;
 use Illuminate\Database\QueryException;
 
-
 it('can create a translation key', function () {
     $translation = Translation::create([
         'key' => 'test.hello',

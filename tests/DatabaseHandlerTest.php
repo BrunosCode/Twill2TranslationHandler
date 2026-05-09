@@ -6,7 +6,6 @@ use BrunosCode\TranslationHandler\Data\TranslationOptions;
 use BrunosCode\TwillTranslationHandler\DatabaseHandler;
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
 
-
 function makeHandler(): DatabaseHandler
 {
     return new DatabaseHandler(new TranslationOptions);

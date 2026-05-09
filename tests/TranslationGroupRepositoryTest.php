@@ -4,7 +4,6 @@ use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\Transl
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Repositories\TranslationGroupRepository;
 
-
 beforeEach(function () {
     $this->repository = app(TranslationGroupRepository::class);
 });

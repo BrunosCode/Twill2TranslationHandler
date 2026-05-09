@@ -4,7 +4,6 @@ use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\Transl
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
 use Illuminate\Database\QueryException;
 
-
 it('can create a translation group', function () {
     $group = TranslationGroup::create(['prefix' => 'menu']);
     $group->refresh();

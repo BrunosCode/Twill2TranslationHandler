@@ -3,7 +3,6 @@
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\Translation;
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Repositories\TranslationRepository;
 
-
 beforeEach(function () {
     $this->repository = app(TranslationRepository::class);
 });

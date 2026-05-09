@@ -2,7 +2,6 @@
 
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Http\Requests\TranslationRequest;
 
-
 it('requires key on create', function () {
     $request = new TranslationRequest;
     $rules = $request->rulesForCreate();
