@@ -2,6 +2,36 @@
 
 All notable changes to `TwillTranslationHandler` will be documented in this file.
 
+## v2.1.0 — Laravel 12 + PHP 8.4 - 2026-05-09
+
+### New
+
+- **Laravel 12 support.** Framework constraint widened to `^11.0|^12.0`. Twill 3.5+ pulls the right `cartalyst/tags` and dependency tree under L12 thanks to `composer update -W` in CI.
+- **PHP 8.4 support.** Tested and confirmed. CI matrix now covers PHP 8.2 / 8.3 / 8.4 × Laravel 11 / 12 on Ubuntu and Windows.
+- **`laravel-translation-handler` updated to `^2.1`** (v2.1.2).
+
+### Bug fixes
+
+- **Null values in form save no longer cause errors.** Twill can pass `null` for inactive-locale fields when saving a translation or translation group. Both `TranslationRepository::update` and `TranslationGroupRepository::update` now normalise `null` to `''` before delegating to the parent repository.
+
+### Test infrastructure
+
+- **Removed `uses(RefreshDatabase::class)` from all tests.** Testbench 10 (required for L12) routed `RefreshDatabase` through `artisan('migrate:fresh')`, which crashed because L12's `Command::run()` accesses `$this->laravel` and a Twill command was being resolved before the container was ready. With SQLite in-memory, each test gets a fresh app — `TestCase::defineDatabaseMigrations()` and `tearDown()` provide isolation without artisan.
+- **CI workflow:** `composer require` split into framework + dev steps to keep `orchestra/testbench` in `require-dev` (avoids a Windows interactive prompt). `composer update -W` added to allow transitive upgrades (cartalyst/tags v14→v15, etc.).
+- **PHPStan:** `--memory-limit=2G` passed in CI (default 128M crashed under phpstan v2). View-string false-positive on package-registered view added to baseline.
+
+### Dev dependency constraints widened
+
+| Package | Before | After |
+|---|---|---|
+| `larastan/larastan` | `^2.9` | `^2.9 \|\| ^3.0` |
+| `pestphp/pest` | `^2.34` | `^2.34 \|\| ^3.0` |
+| `pestphp/pest-plugin-laravel` | `^2.3` | `^2.3 \|\| ^3.0` |
+| `pestphp/pest-plugin-arch` | `^2.7` | `^2.7 \|\| ^3.0` |
+| `phpstan/phpstan-deprecation-rules` | `^1.1` | `^1.1 \|\| ^2.0` |
+| `phpstan/phpstan-phpunit` | `^1.3` | `^1.3 \|\| ^2.0` |
+| `orchestra/testbench` | `^9.0.0\|\|^8.22.0` | `^9.0.0 || ^10.0.0
+
 ## v2.0.2 - 2026-05-09
 
 ### Bug fixes
@@ -29,6 +59,7 @@ All notable changes to `TwillTranslationHandler` will be documented in this file
 ```php
 // config/translation-handler.php
 'legacy-twill-navigation' => true, // default — behaviour unchanged from v2.0
+
 
 
 ```
@@ -79,6 +110,7 @@ Added `TranslationToolsControllerTest` with 14 cases covering:
 ```bash
 composer require brunoscode/twill-translation-handler:^2.0 area17/twill:^3.0 laravel/framework:^11.0
 php artisan migrate
+
 
 
 
