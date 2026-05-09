@@ -1,9 +1,7 @@
 <?php
 
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Http\Requests\TranslationRequest;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
-uses(RefreshDatabase::class);
 
 it('requires key on create', function () {
     $request = new TranslationRequest;

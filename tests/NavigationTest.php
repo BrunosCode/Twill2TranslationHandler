@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
-uses(RefreshDatabase::class);
 
 it('registers translations route', function () {
     expect(route('admin.translations.translations.index'))

@@ -5,9 +5,7 @@ use BrunosCode\TranslationHandler\Data\Translation as TranslationData;
 use BrunosCode\TranslationHandler\Data\TranslationOptions;
 use BrunosCode\TwillTranslationHandler\DatabaseHandler;
 use BrunosCode\TwillTranslationHandler\Twill\Capsules\Translations\Models\TranslationGroup;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
-uses(RefreshDatabase::class);
 
 function makeHandler(): DatabaseHandler
 {
