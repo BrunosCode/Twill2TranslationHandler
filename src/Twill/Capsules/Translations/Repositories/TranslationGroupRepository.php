@@ -95,6 +95,12 @@ class TranslationGroupRepository extends ModuleRepository
 
         unset($fields['repeaters'], $fields['blocks']);
 
+        array_walk_recursive($fields, function (&$v) {
+            if (is_null($v)) {
+                $v = '';
+            }
+        });
+
         $result = parent::update($id, $fields);
 
         $group = TranslationGroup::findOrFail($id);

@@ -39,6 +39,14 @@ class TranslationRepository extends ModuleRepository
     {
         unset($fields['allow_empty']);
 
+        if (isset($fields['translations'])) {
+            array_walk_recursive($fields['translations'], function (&$v) {
+                if (is_null($v)) {
+                    $v = '';
+                }
+            });
+        }
+
         return parent::update($id, $fields);
     }
 

@@ -173,6 +173,39 @@ Per-group CSV export is also available directly from each group's edit page.
 
 > PHP language files are kept in sync automatically: every import (CSV via the tools page or per-group) writes the affected PHP files immediately after updating the database. Saving a single key or group from the edit form also triggers the same export.
 
+## Editorial interface
+
+### Editing a key
+
+Opening a translation key shows:
+
+| Field | Behaviour |
+|-------|-----------|
+| **Key** | Read-only. Keys are created only via import. |
+| **Value** | Translatable textarea — one tab per configured locale. |
+| **Allow empty** | Checkbox (sidebar). See [below](#allow-empty). |
+
+Saving a key immediately exports the affected PHP language file.
+
+### Editing a group
+
+Opening a group shows the **prefix** (read-only) and one textarea per translation key that belongs to the group. Each textarea is translatable — every configured locale is available as a tab. A **Download CSV** button lets editors export the group directly from the edit page.
+
+Field naming: each textarea is internally keyed as `trans_<id>` where `<id>` is the `translation_keys.id`. This is transparent to editors but relevant if you extend the form.
+
+Saving a group writes all locale values and immediately exports the affected PHP language file.
+
+### allow_empty
+
+Both modules show an **Allow empty** checkbox in the sidebar. Its effect is on form validation:
+
+| Module | `allow_empty` unchecked | `allow_empty` checked |
+|--------|------------------------|----------------------|
+| **Keys** | Value is `required` for every locale | Value is `nullable` — empty strings are accepted |
+| **Groups** | Every locale value of every key is `required` | No validation — any combination of values is accepted |
+
+When a value reaches the repository as `null` (e.g. the editor cleared a field), it is normalised to an empty string before being persisted. This means the database never stores `null` in `translation_values.value` through a form save.
+
 ## Deployment
 
 The **database is the source of truth** for translation values. PHP language files are used only to carry new keys and new locales between environments.
