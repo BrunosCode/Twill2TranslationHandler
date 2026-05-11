@@ -2,6 +2,11 @@
 
 All notable changes to `TwillTranslationHandler` will be documented in this file.
 
+## v2.1.1 - 2026-05-11
+
+- Update author email
+- Bump `brunoscode/laravel-translation-handler` to `^2.2`
+
 ## v2.1.0 — Laravel 12 + PHP 8.4 - 2026-05-09
 
 ### New
@@ -62,6 +67,7 @@ All notable changes to `TwillTranslationHandler` will be documented in this file
 
 
 
+
 ```
 Set to `false` if your app uses the `TwillNavigation` builder and register the navigation entries yourself. See the [Navigation](README.md#navigation) section in the README for both approaches.
 
@@ -110,6 +116,7 @@ Added `TranslationToolsControllerTest` with 14 cases covering:
 ```bash
 composer require brunoscode/twill-translation-handler:^2.0 area17/twill:^3.0 laravel/framework:^11.0
 php artisan migrate
+
 
 
 
