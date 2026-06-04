@@ -2,6 +2,11 @@
 
 All notable changes to `TwillTranslationHandler` will be documented in this file.
 
+## v2.1.2 - 2026-06-04
+
+- Bump `brunoscode/laravel-translation-handler` to `^2.4` (v2.4.0), bringing the new `translation-handler:check` command, linter-friendly file writes, and the `false|int` return semantics for `sync()` / `import()` / `export()`.
+- Adapt the empty-export test to the new `export()` semantics: since v2.3 `export()` returns `false` and writes nothing when the source has no translations, so `TranslationToolsController::exportToCsv` now redirects back with an error instead of returning an empty headers-only CSV download.
+
 ## v2.1.1 - 2026-05-11
 
 - Update author email
