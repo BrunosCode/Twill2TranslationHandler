@@ -186,15 +186,16 @@ it('exports translations to csv with comma delimiter', function () {
     $response->assertDownload();
 });
 
-it('exports an empty csv (headers only) when db has no translations', function () {
-    // CsvFileHandler always writes the file (even if empty — just headers),
-    // so the controller returns a download rather than an error.
+it('redirects with an error when db has no translations to export', function () {
+    // Since laravel-translation-handler v2.3, export() returns false and writes
+    // nothing when the source has no translations, so no CSV file is generated and
+    // the controller redirects back with an error instead of returning a download.
     $this->withoutMiddleware()
         ->post(route('admin.translations.translationTools.exportToCsv'), [
             'csv_delimiter' => ';',
         ])
-        ->assertOk()
-        ->assertDownload();
+        ->assertRedirect()
+        ->assertSessionHas('error');
 });
 
 // ---------------------------------------------------------------------------

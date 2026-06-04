@@ -18,7 +18,7 @@
     "require": {
         "php": "^8.2",
         "area17/twill": "^3.0",
-        "brunoscode/laravel-translation-handler": "^2.2",
+        "brunoscode/laravel-translation-handler": "^2.4",
         "laravel/framework": "^11.0|^12.0",
         "spatie/laravel-package-tools": "^1.16"
     },
