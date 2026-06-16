@@ -2,7 +2,9 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/brunoscode/twill-translation-handler.svg?style=flat-square)](https://packagist.org/packages/brunoscode/twill-translation-handler)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/brunoscode/twill-translation-handler/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/brunoscode/twill-translation-handler/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/brunoscode/twill-translation-handler/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/brunoscode/twill-translation-handler/actions?query=workflow%3A%22Fix+PHP+code+style+issues%22+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/brunoscode/twill-translation-handler.svg?style=flat-square)](https://packagist.org/packages/brunoscode/twill-translation-handler)
+[![License](https://img.shields.io/packagist/l/brunoscode/twill-translation-handler.svg?style=flat-square)](LICENSE.md)
 
 A [Twill CMS](https://twillcms.com) capsule for managing Laravel translations directly from the admin panel. Built on top of [LaravelTranslationHandler](https://github.com/BrunosCode/LaravelTranslationHandler).
 
@@ -33,7 +35,8 @@ A [Twill CMS](https://twillcms.com) capsule for managing Laravel translations di
 - PHP 8.2, 8.3, or 8.4
 - Laravel 11 or 12
 - Twill 3.x
-- [brunoscode/laravel-translation-handler](https://github.com/BrunosCode/LaravelTranslationHandler) ^2.1
+- [brunoscode/laravel-translation-handler](https://github.com/BrunosCode/LaravelTranslationHandler) ^2.6
+- *(optional)* [laravel/boost](https://github.com/laravel/boost) ^2.0 — to expose the translation MCP tools to AI agents. See [AI integration](#ai-integration-laravel-boost).
 
 ## Installation
 
@@ -224,17 +227,17 @@ A typical deploy script:
 php artisan migrate
 
 # Add new keys and locales from PHP files to the DB, without overwriting existing DB values
-php artisan translation-handler php db
+php artisan translation-handler:sync php db
 
 # Overwrite PHP files with the authoritative DB values
-php artisan translation-handler db php --force
+php artisan translation-handler:sync db php --force
 ```
 
 The first command (without `--force`) inserts only keys and locale entries that do not yet exist in the DB — existing values are left untouched. The second command rewrites the PHP files so they always reflect the DB state.
 
 > **First deploy / fresh environment:** if the DB is empty, seed it from the PHP files:
 > ```bash
-> php artisan translation-handler php db --force
+> php artisan translation-handler:sync php db --force
 > ```
 
 ## Syncing translations from production
@@ -246,7 +249,7 @@ When content editors have updated translations directly in production or staging
 2. **Copy the file** into your project (e.g. `storage/lang/translations.csv`) and import it to regenerate the PHP files:
 
 ```bash
-php artisan translation-handler csv php --force
+php artisan translation-handler:sync csv php --force
 ```
 
 3. **Commit the updated PHP files** and push:
@@ -258,6 +261,23 @@ git push
 ```
 
 The next deploy will import the updated PHP files into any environment whose DB does not yet have those values.
+
+## AI integration (Laravel Boost)
+
+The underlying [LaravelTranslationHandler](https://github.com/BrunosCode/LaravelTranslationHandler) exposes its translation operations as [Model Context Protocol](https://modelcontextprotocol.io) tools through [Laravel Boost](https://github.com/laravel/boost). Boost is an **optional** dependency — install it only if you want an AI agent (e.g. in your editor) to read and edit translations directly.
+
+```bash
+composer require laravel/boost --dev
+```
+
+Once Boost is installed and its MCP server is registered, the translation tools become available to any connected agent. They cover the same operations as the admin panel and CLI:
+
+- **List / find** — `list-translations`, `list-translation-groups`, `find-translation`, `get-translation-config`
+- **Edit** — `set-translation`, `set-all-locales-translation`, `set-translation-group`
+- **Delete** — `delete-translation`, `delete-translation-group`
+- **Maintain** — `sort-translations`, `sync-translations`, `check-translations` (reports keys used in code but missing per locale)
+
+No extra configuration is needed in this package — the tools are registered by the core package and operate on the same database and language files described above. See the [LaravelTranslationHandler](https://github.com/BrunosCode/LaravelTranslationHandler) README for the full tool reference.
 
 ## Database Structure
 
