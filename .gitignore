@@ -31,3 +31,5 @@ phpstan.neon
 /coverage
 /testbench-core
 .claude/
+.claude/skills/wip-*
+CLAUDE.md
