@@ -3,8 +3,8 @@
 > A [Twill CMS](https://twillcms.com) capsule for managing Laravel translations directly from the admin panel. Built on top of [LaravelTranslationHandler](https://github.com/BrunosCode/LaravelTranslationHandler).
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/brunoscode/twill-translation-handler.svg?style=flat-square)](https://packagist.org/packages/brunoscode/twill-translation-handler)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/brunoscode/twill-translation-handler/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/brunoscode/twill-translation-handler/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/brunoscode/twill-translation-handler/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/brunoscode/twill-translation-handler/actions?query=workflow%3A%22Fix+PHP+code+style+issues%22+branch%3Amain)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/BrunosCode/TwillTranslationHandler/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/BrunosCode/TwillTranslationHandler/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/BrunosCode/TwillTranslationHandler/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/BrunosCode/TwillTranslationHandler/actions?query=workflow%3A%22Fix+PHP+code+style+issues%22+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/brunoscode/twill-translation-handler.svg?style=flat-square)](https://packagist.org/packages/brunoscode/twill-translation-handler)
 [![License](https://img.shields.io/packagist/l/brunoscode/twill-translation-handler.svg?style=flat-square)](LICENSE.md)
 
