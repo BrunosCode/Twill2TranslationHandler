@@ -2,6 +2,12 @@
 
 All notable changes to `TwillTranslationHandler` will be documented in this file.
 
+## v2.2.0 - 2026-06-16
+
+- Bump `brunoscode/laravel-translation-handler` to `^2.6` (v2.6.1).
+- **Laravel Boost support.** With the optional `laravel/boost ^2.0` package installed, the core package's translation MCP tools (list, find, set, delete, sort, sync, check) become available to AI agents — documented in the new README section.
+- README house-style pass aligned with [LaravelTranslationHandler](https://github.com/BrunosCode/LaravelTranslationHandler): added a table of contents, a blockquote tagline, the code-style and license badges, and a Contributing section; replaced the deprecated bare `translation-handler` command with `translation-handler:sync` in the deploy and production-sync examples.
+
 ## v2.1.2 - 2026-06-04
 
 - Bump `brunoscode/laravel-translation-handler` to `^2.4` (v2.4.0), bringing the new `translation-handler:check` command, linter-friendly file writes, and the `false|int` return semantics for `sync()` / `import()` / `export()`.

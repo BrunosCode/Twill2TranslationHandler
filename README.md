@@ -1,20 +1,40 @@
 # Twill Translation Handler
 
+> A [Twill CMS](https://twillcms.com) capsule for managing Laravel translations directly from the admin panel. Built on top of [LaravelTranslationHandler](https://github.com/BrunosCode/LaravelTranslationHandler).
+
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/brunoscode/twill-translation-handler.svg?style=flat-square)](https://packagist.org/packages/brunoscode/twill-translation-handler)
 [![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/brunoscode/twill-translation-handler/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/brunoscode/twill-translation-handler/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/brunoscode/twill-translation-handler/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/brunoscode/twill-translation-handler/actions?query=workflow%3A%22Fix+PHP+code+style+issues%22+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/brunoscode/twill-translation-handler.svg?style=flat-square)](https://packagist.org/packages/brunoscode/twill-translation-handler)
 [![License](https://img.shields.io/packagist/l/brunoscode/twill-translation-handler.svg?style=flat-square)](LICENSE.md)
 
-A [Twill CMS](https://twillcms.com) capsule for managing Laravel translations directly from the admin panel. Built on top of [LaravelTranslationHandler](https://github.com/BrunosCode/LaravelTranslationHandler).
-
 > **Twill compatibility:** Currently supports **Twill 3** (Laravel 11–12, PHP 8.2+). Twill 2 support is available in the `v0.x` releases.
+
+## Table of Contents
+
+- [Supported versions](#supported-versions)
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Navigation](#navigation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Editorial interface](#editorial-interface)
+- [Deployment](#deployment)
+- [Syncing translations from production](#syncing-translations-from-production)
+- [AI integration (Laravel Boost)](#ai-integration-laravel-boost)
+- [Database Structure](#database-structure)
+- [Testing](#testing)
+- [Changelog](#changelog)
+- [Credits](#credits)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Supported versions
 
 | Package version | PHP | Laravel | Twill |
 |-----------------|-----|---------|-------|
-| **v2.1** | 8.2 · 8.3 · 8.4 | 11 · 12 | 3.x |
+| **v2.2** | 8.2 · 8.3 · 8.4 | 11 · 12 | 3.x |
 | v2.0 | 8.2 · 8.3 | 11 | 3.x |
 | v1.x | 8.1+ | 10 | 2.x |
 
@@ -35,8 +55,6 @@ A [Twill CMS](https://twillcms.com) capsule for managing Laravel translations di
 - PHP 8.2, 8.3, or 8.4
 - Laravel 11 or 12
 - Twill 3.x
-- [brunoscode/laravel-translation-handler](https://github.com/BrunosCode/LaravelTranslationHandler) ^2.6
-- *(optional)* [laravel/boost](https://github.com/laravel/boost) ^2.0 — to expose the translation MCP tools to AI agents. See [AI integration](#ai-integration-laravel-boost).
 
 ## Installation
 
@@ -267,17 +285,16 @@ The next deploy will import the updated PHP files into any environment whose DB 
 The underlying [LaravelTranslationHandler](https://github.com/BrunosCode/LaravelTranslationHandler) exposes its translation operations as [Model Context Protocol](https://modelcontextprotocol.io) tools through [Laravel Boost](https://github.com/laravel/boost). Boost is an **optional** dependency — install it only if you want an AI agent (e.g. in your editor) to read and edit translations directly.
 
 ```bash
-composer require laravel/boost --dev
+composer require laravel/boost:^2.0
 ```
 
-Once Boost is installed and its MCP server is registered, the translation tools become available to any connected agent. They cover the same operations as the admin panel and CLI:
+Once Boost is installed the core package auto-registers the translation MCP tools — no configuration. Any MCP-compatible agent (Claude, Cursor, GitHub Copilot, …) can then browse and edit translations directly. They cover the same operations as the admin panel and CLI:
 
-- **List / find** — `list-translations`, `list-translation-groups`, `find-translation`, `get-translation-config`
-- **Edit** — `set-translation`, `set-all-locales-translation`, `set-translation-group`
-- **Delete** — `delete-translation`, `delete-translation-group`
-- **Maintain** — `sort-translations`, `sync-translations`, `check-translations` (reports keys used in code but missing per locale)
+- **Read** — `get-translation-config-tool`, `list-translation-groups-tool`, `list-translations-tool`, `find-translation-tool`
+- **Write** — `set-translation-tool`, `set-all-locales-translation-tool`, `set-translation-group-tool`, `sync-translations-tool`, `delete-translation-tool`, `delete-translation-group-tool`
+- **Maintenance** — `sort-translations-tool`, `check-translations-tool` (reports keys used in code but missing per locale)
 
-No extra configuration is needed in this package — the tools are registered by the core package and operate on the same database and language files described above. See the [LaravelTranslationHandler](https://github.com/BrunosCode/LaravelTranslationHandler) README for the full tool reference.
+The tools are registered by the core package and operate on the same database and language files described above. See the [LaravelTranslationHandler](https://github.com/BrunosCode/LaravelTranslationHandler) README for the full tool reference.
 
 ## Database Structure
 
@@ -295,12 +312,16 @@ composer test
 
 ## Changelog
 
-Please see [CHANGELOG](CHANGELOG.md) for recent changes.
+Please see [CHANGELOG.md](CHANGELOG.md) for what has changed recently.
 
 ## Credits
 
-- [Bruno Magnani](https://github.com/BrunosCode)
-- [All Contributors](../../contributors)
+- [BrunosCode](https://github.com/BrunosCode)
+- [All Contributors](https://github.com/BrunosCode/TwillTranslationHandler/graphs/contributors)
+
+## Contributing
+
+Contributions are welcome! Please submit a pull request or open an issue to discuss what you would like to change.
 
 ## License
 
