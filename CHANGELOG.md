@@ -2,6 +2,10 @@
 
 All notable changes to `TwillTranslationHandler` will be documented in this file.
 
+## v2.3.0 — Ship Boost guidelines & skills - 2026-06-16
+
+- **Ship Laravel Boost guidelines and skills.** `php artisan boost:install` now discovers `twill-translation-handler` and offers to install an AI guideline plus the `translation-handler-mcp` and `translation-handler-development` skills. Boost only discovers the guidelines/skills of *direct* Composer dependencies, so the core `laravel-translation-handler` package — a transitive dependency in a Twill app — was previously skipped entirely; this package now re-exports its Boost resources. The content is read live from the installed core package at install time (a thin Blade wrapper around the core `core.blade.php` and `SKILL.md` files), so it stays in sync with the installed `laravel-translation-handler` version without duplication. A Twill-specific section covers editing translations from the admin.
+
 ## v2.2.0 — Laravel Boost support - 2026-06-16
 
 - Bump `brunoscode/laravel-translation-handler` to `^2.6` (v2.6.1).

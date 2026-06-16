@@ -296,6 +296,10 @@ Once Boost is installed the core package auto-registers the translation MCP tool
 
 The tools are registered by the core package and operate on the same database and language files described above. See the [LaravelTranslationHandler](https://github.com/BrunosCode/LaravelTranslationHandler) README for the full tool reference.
 
+### Guidelines and skills
+
+Running `php artisan boost:install` and selecting **twill-translation-handler (guidelines, skills)** installs an AI guideline plus two skills — `translation-handler-mcp` (the agent workflow) and `translation-handler-development` (writing custom PHP) — into your editor's agent. This package ships them because Boost only discovers the guidelines and skills of *direct* Composer dependencies: in a Twill app the core `laravel-translation-handler` package is a transitive dependency, so its own Boost resources would never be offered. The content is read live from the installed core package at install time, so it always reflects the installed `laravel-translation-handler` version, plus a Twill-specific note on editing translations from the admin.
+
 ## Database Structure
 
 | Table | Description |
